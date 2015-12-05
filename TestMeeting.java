@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Set;
+import java.util.HashSet;
 
 public class TestMeeting {
 
@@ -42,13 +43,24 @@ public class TestMeeting {
 		assertEquals(day1.get(Calendar.MINUTE),meeting.getDate().get(Calendar.MINUTE));
 	}
 	
-	/*
 	@Test
 	public void testGetContacts(){		  
 		assertEquals(null,meeting.getContacts());
 	}
 	
-	*/
+	@Test
+	public void testSetParticipants(){	
+		Contact participantone = new ContactImpl("Andrea Agassi");
+		Contact participanttwo = new ContactImpl("Rafael Nadal");
+		Contact participantthree = new ContactImpl("Roger Federer");
+		Set<Contact> participants = new HashSet<Contact>();
+		participants.add(participantone);
+		participants.add(participanttwo);
+		participants.add(participantthree);
+		((MeetingImpl)meeting).setParticipants(participants);
+		assertEquals(participants,meeting.getContacts());
+	}
+	
 	
 	
 }
