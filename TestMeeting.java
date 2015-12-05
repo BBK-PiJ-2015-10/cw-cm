@@ -24,7 +24,7 @@ public class TestMeeting {
 		assertEquals(100,meeting.getId());
 	}
 	
-	/*
+	
 	@Test
 	public void testGetDate(){		  
 		assertEquals(null,meeting.getDate());
@@ -34,7 +34,7 @@ public class TestMeeting {
 	public void testSetDate(){
 		assertEquals(null,meeting.getDate());
 		Calendar day1 = new GregorianCalendar(2015, 10, 1, 18, 45);
-		meeting.setDate(day1);
+		((MeetingImpl)meeting).setDate(day1);
 		assertEquals(day1.get(Calendar.YEAR),meeting.getDate().get(Calendar.YEAR));
 		assertEquals(day1.get(Calendar.MONTH),meeting.getDate().get(Calendar.MONTH));
 		assertEquals(day1.get(Calendar.DAY_OF_MONTH),meeting.getDate().get(Calendar.DAY_OF_MONTH));
@@ -42,7 +42,7 @@ public class TestMeeting {
 		assertEquals(day1.get(Calendar.MINUTE),meeting.getDate().get(Calendar.MINUTE));
 	}
 	
-	
+	/*
 	@Test
 	public void testGetContacts(){		  
 		assertEquals(null,meeting.getContacts());
