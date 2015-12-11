@@ -40,6 +40,21 @@ public class ContactImpl implements Contact {
 			this.notes = notes;
 	}
 	
+	/*
+	* This is one of the Constructors for the ContactImpl class.
+	* The id must be greater than zero, otherwise IllegalArgumentException is thrown
+	* via the testId method call. Similarly, if the name is null,
+	* a NullPointerException is thrown.
+	*
+	*@throws IllegalArgumentException if id is less than zero.
+	*@throws NullPointerException if name is null.
+	*/
+	public ContactImpl(int id, String name){
+		    testId(id);
+			this.id=id;
+			testNull(name);
+			this.name = name;
+	}
 	
 	/*
 	*  The ids for each contact can't be 0 or negatives. This method is to be used
