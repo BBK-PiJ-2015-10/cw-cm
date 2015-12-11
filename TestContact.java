@@ -32,8 +32,12 @@ public class TestContact {
 		assertEquals("Great Britain",testercontact.getNotes());
 	}
 	
+	
+	/*
+	*These are the tests to ensure that IDs less than zero, can't be passed as arguments.
+	*/
 	@Test
-	public void testTestIDforCase0(){
+	public void testTestIDforCase0Constructor1(){
 		try {
 			Contact TestIDContact = new ContactImpl(0,"Roger Federer","Helvetic Confederation");
 		}
@@ -43,7 +47,7 @@ public class TestContact {
 	}
 	
 	@Test
-	public void testTestIDforCaseNegative(){
+	public void testTestIDforCaseNegativeConstructor1(){
 		try {
 			Contact TestIDContact = new ContactImpl(-5,"Roger Federer","Helvetic Confederation");
 		}
@@ -51,6 +55,72 @@ public class TestContact {
 			assertEquals("java.lang.IllegalArgumentException",ex1.toString());
 		}
 	}
+	
+	@Test
+	public void testTestIDforCase0Constructor2(){
+		try {
+			Contact TestIDContact = new ContactImpl(0,"Roger Federer");
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.IllegalArgumentException",ex1.toString());
+		}
+	}
+	
+	
+	@Test
+	public void testTestIDforCaseNegativeConstructor2(){
+		try {
+			Contact TestIDContact = new ContactImpl(-5,"Roger Federer");
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.IllegalArgumentException",ex1.toString());
+		}
+	}
+	
+	/*
+	*These are the tests to ensure that null names and/or notes can't be passed as arguments.
+	*/
+	@Test
+	public void testTestNullforNameConstructor1(){
+		String empty=null;
+		try {
+			Contact TestIDContact = new ContactImpl(31,empty,"Helvetic Confederation");
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
+	
+	@Test
+	public void testTestNullforNotesConstructor1(){
+		String empty=null;
+		try {
+			Contact TestIDContact = new ContactImpl(31,"Roger Federer",empty);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
+	
+	@Test
+	public void testTestNullforNameConstructor2(){
+		String empty=null;
+		try {
+			Contact TestIDContact = new ContactImpl(31,empty);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	
