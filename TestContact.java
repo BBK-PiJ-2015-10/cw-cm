@@ -7,12 +7,12 @@ public class TestContact {
 	  
 	@Before
 	public void setup(){
-		testercontact = new ContactImpl("Andy Murray");
+		testercontact = new ContactImpl(31,"Andy Murray","England");
 	}
 	
 	@Test
 	public void testGetId(){		  
-		assertEquals(0,testercontact.getId());
+		assertEquals(31,testercontact.getId());
 	}
 	
 	@Test
@@ -22,15 +22,39 @@ public class TestContact {
 	
 	@Test
 	public void testGetNotes(){		  
-		assertEquals(null,testercontact.getNotes());
+		assertEquals("England",testercontact.getNotes());
 	}
 	
 	@Test
 	public void testAddNotes(){		  
-		assertEquals(null,testercontact.getNotes());
+		assertEquals("England",testercontact.getNotes());
 		testercontact.addNotes("Great Britain");
 		assertEquals("Great Britain",testercontact.getNotes());
 	}
+	
+	@Test
+	public void testTestIDforCase0(){
+		try {
+			Contact TestIDContact = new ContactImpl(0,"Roger Federer","Helvetic Confederation");
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.IllegalArgumentException",ex1.toString());
+		}
+	}
+	
+	@Test
+	public void testTestIDforCaseNegative(){
+		try {
+			Contact TestIDContact = new ContactImpl(-5,"Roger Federer","Helvetic Confederation");
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.IllegalArgumentException",ex1.toString());
+		}
+	}
+	
+
+	
+	
 	
 }
 
