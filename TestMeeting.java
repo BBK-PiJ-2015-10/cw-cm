@@ -8,15 +8,27 @@ import java.util.HashSet;
 public class TestMeeting {
 
 	Meeting meeting;
+	
+	Set<Contact> participants;
+	
+	Calendar testdate;
 	  
 	@Before
 	public void setup(){
-		meeting = new MeetingImpl();
+		testdate = new GregorianCalendar(2015, 10, 1, 18, 45);
+		Contact participantone = new ContactImpl(45,"Andrea Agassi","United States");
+		Contact participanttwo = new ContactImpl(35,"Rafael Nadal","Spain");
+		Contact participantthree = new ContactImpl(39,"Roger Federer","Helvetic Republic");
+		participants = new HashSet<Contact>();
+		participants.add(participantone);
+		participants.add(participanttwo);
+		participants.add(participantthree);	
+		meeting = new MeetingImpl(10,testdate,participants);
 	}
 	
 	@Test
 	public void testGetId(){		  
-		assertEquals(0,meeting.getId());
+		assertEquals(10,meeting.getId());
 	}
 	
 	@Test
@@ -27,32 +39,32 @@ public class TestMeeting {
 	
 	
 	@Test
-	public void testGetDate(){		  
-		assertEquals(null,meeting.getDate());
+	public void testGetDate(){		  	
+		assertEquals(testdate,meeting.getDate());
 	}
 	
 	@Test
 	public void testSetDate(){
-		assertEquals(null,meeting.getDate());
-		Calendar day1 = new GregorianCalendar(2015, 10, 1, 18, 45);
-		((MeetingImpl)meeting).setDate(day1);
-		assertEquals(day1.get(Calendar.YEAR),meeting.getDate().get(Calendar.YEAR));
-		assertEquals(day1.get(Calendar.MONTH),meeting.getDate().get(Calendar.MONTH));
-		assertEquals(day1.get(Calendar.DAY_OF_MONTH),meeting.getDate().get(Calendar.DAY_OF_MONTH));
-		assertEquals(day1.get(Calendar.HOUR_OF_DAY),meeting.getDate().get(Calendar.HOUR_OF_DAY));
-		assertEquals(day1.get(Calendar.MINUTE),meeting.getDate().get(Calendar.MINUTE));
+		assertEquals(testdate,meeting.getDate());
+		Calendar day2 = new GregorianCalendar(2016, 5, 2, 23, 15);
+		((MeetingImpl)meeting).setDate(day2);
+		assertEquals(day2.get(Calendar.YEAR),meeting.getDate().get(Calendar.YEAR));
+		assertEquals(day2.get(Calendar.MONTH),meeting.getDate().get(Calendar.MONTH));
+		assertEquals(day2.get(Calendar.DAY_OF_MONTH),meeting.getDate().get(Calendar.DAY_OF_MONTH));
+		assertEquals(day2.get(Calendar.HOUR_OF_DAY),meeting.getDate().get(Calendar.HOUR_OF_DAY));
+		assertEquals(day2.get(Calendar.MINUTE),meeting.getDate().get(Calendar.MINUTE));
 	}
 	
 	@Test
 	public void testGetContacts(){		  
-		assertEquals(null,meeting.getContacts());
+		assertEquals(participants,meeting.getContacts());
 	}
 	
 	@Test
 	public void testSetParticipants(){	
-		Contact participantone = new ContactImpl("Andrea Agassi");
-		Contact participanttwo = new ContactImpl("Rafael Nadal");
-		Contact participantthree = new ContactImpl("Roger Federer");
+		Contact participantone = new ContactImpl(509,"Serana Williams","United States");
+		Contact participanttwo = new ContactImpl(350,"Maria Sharampova","Russia");
+		Contact participantthree = new ContactImpl(390,"Monica Seles","Yugoslavia");
 		Set<Contact> participants = new HashSet<Contact>();
 		participants.add(participantone);
 		participants.add(participanttwo);
