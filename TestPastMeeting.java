@@ -146,7 +146,7 @@ public class TestPastMeeting {
 	}
 	
 	@Test
-	public void testTestNullforNullConstructor(){
+	public void testTestNullforNotesConstructor(){
 		String testnotes2 = null;
 		try {
 			PastMeeting TestEmptyNotesMeeting = new PastMeetingImpl(10,testdate,testparticipants,testnotes2);
