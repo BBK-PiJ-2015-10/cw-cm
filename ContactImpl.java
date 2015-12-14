@@ -33,11 +33,11 @@ public class ContactImpl implements Contact {
 	*/
 	public ContactImpl(int id, String name, String notes){
 		    testId(id);
-			this.id=id;
+			setId(id);
 			testNull(name);
-			this.name = name;
+			setName(name);
 			testNull(notes);
-			this.notes = notes;
+			addNotes(notes);
 	}
 	
 	/*
@@ -51,9 +51,9 @@ public class ContactImpl implements Contact {
 	*/
 	public ContactImpl(int id, String name){
 		    testId(id);
-			this.id=id;
+			setId(id);
 			testNull(name);
-			this.name = name;
+			setName(name);
 	}
 	
 	/*
@@ -66,12 +66,13 @@ public class ContactImpl implements Contact {
 		}		
 	}
 	
+	//NEED TO ADD THE BELOW METHOD FOR THE ID TOO, ALSO RUN A TEST ON IT.
 	/*
 	*  This method is to be used in the Constructor to ensure that neither name 
 	*  or notes are null.
 	*/
 	public void testNull (String input ){
-	    if (input == null){
+	    if ( (input == null) || (input.isEmpty()==true) ){
 			throw new NullPointerException();
 		}
 	}
@@ -85,10 +86,24 @@ public class ContactImpl implements Contact {
 	}
 	
 	/*
+	* This is a setter method for id.
+	*/
+	public void setId(int id){
+		this.id=id;
+	}
+	
+	/*
 	* @see Contact for details on method definition.
 	*/
 	public String getName(){
 		return this.name;
+	}
+	
+	/*
+	* This is a setter method for name.
+	*/
+	public void setName(String name){
+		this.name = name;
 	}
 	
 	/*
