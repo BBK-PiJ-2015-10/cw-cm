@@ -14,6 +14,10 @@ public class TestPastMeeting {
 	Calendar testdate;
 	
 	String testnotes;
+	
+	String emptynotes="";
+	
+	String nullnotes=null;
 	  
 	@Before
 	public void setup(){
@@ -136,9 +140,8 @@ public class TestPastMeeting {
 	
 	@Test
 	public void testTestEmptyforNotesConstructor(){
-		String testnotes2 = "";
 		try {
-			PastMeeting TestEmptyNotesMeeting = new PastMeetingImpl(10,testdate,testparticipants,testnotes2);
+			PastMeeting TestEmptyNotesMeeting = new PastMeetingImpl(10,testdate,testparticipants,emptynotes);
 		}
 		catch (Exception ex1){
 			assertEquals("java.lang.NullPointerException",ex1.toString());
@@ -147,9 +150,8 @@ public class TestPastMeeting {
 	
 	@Test
 	public void testTestNullforNotesConstructor(){
-		String testnotes2 = null;
 		try {
-			PastMeeting TestEmptyNotesMeeting = new PastMeetingImpl(10,testdate,testparticipants,testnotes2);
+			PastMeeting TestEmptyNotesMeeting = new PastMeetingImpl(10,testdate,testparticipants,nullnotes);
 		}
 		catch (Exception ex1){
 			assertEquals("java.lang.NullPointerException",ex1.toString());
