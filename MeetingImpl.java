@@ -1,7 +1,7 @@
 import java.util.Calendar;
 import java.util.Set;
 
-public class MeetingImpl implements Meeting {
+public abstract class MeetingImpl implements Meeting {
 
 	/*
 	* This is to hold the unique meeting id.
@@ -53,10 +53,11 @@ public class MeetingImpl implements Meeting {
 	*  Dates can't be null. This method is to be leveraged in the Constructor method.
 	*/
 	public void testNull (Calendar date ){
-	    if (date == null){
+	    if ( date == null ){
 			throw new NullPointerException();
 		}
 	}
+		
 	
 	/*
 	*  Participants list can't be null. This method is to be leveraged in the Constructor method.
