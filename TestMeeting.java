@@ -73,6 +73,66 @@ public class TestMeeting {
 		assertEquals(participants,meeting.getContacts());
 	}
 	
+	/*
+	*These are the tests for the Constructor methods to ensure that exceptions are thrown
+	*/
+	@Test
+	public void testTestIDforCase0Constructor(){
+		try {
+			Meeting TestIDMeeting = new MeetingImpl(0,testdate,participants);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.IllegalArgumentException",ex1.toString());
+		}
+	}
+	
+	@Test
+	public void testTestIDforCaseNegativeConstructor(){
+		try {
+			Meeting TestIDMeeting = new MeetingImpl(-10,testdate,participants);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.IllegalArgumentException",ex1.toString());
+		}
+	}
+	
+	@Test
+	public void testTestNullforNullDateConstructor(){
+		Calendar NullTestdate = new GregorianCalendar();
+		NullTestdate = null;
+		try {
+			Meeting TestNullDateMeeting = new MeetingImpl(10,NullTestdate,participants);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
+	
+	@Test
+	public void testTestNullforNullParticipantsConstructor(){
+		Set<Contact> nullparticipants = new HashSet<Contact>();
+		try {
+			Meeting TestNullParticipantsMeeting = new MeetingImpl(10,testdate,nullparticipants);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
