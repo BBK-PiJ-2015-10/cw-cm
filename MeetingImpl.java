@@ -71,6 +71,7 @@ public abstract class MeetingImpl implements Meeting {
 	/*
 	* Returns id of this meeting.
 	*/
+	@Override
 	public int getId(){
 		return this.id;
 	}
@@ -86,6 +87,7 @@ public abstract class MeetingImpl implements Meeting {
 	/*
 	* Returns date of this meeting.
 	*/
+	@Override
 	public Calendar getDate(){
 		return this.date;
 	}
@@ -101,6 +103,7 @@ public abstract class MeetingImpl implements Meeting {
 	* Returns Set of Contacts of this meeting.
 	*
 	*/
+	@Override
 	public Set<Contact> getContacts(){
 		return this.participants;
 	}
