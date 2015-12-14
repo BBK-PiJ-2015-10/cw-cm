@@ -18,7 +18,6 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 		super(id,date,participants);
 		testNotesNull(notes);
 		setNotes(notes);
-		//this.notes=notes;
 	}
 	
 	/*
