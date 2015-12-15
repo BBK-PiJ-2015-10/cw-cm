@@ -8,6 +8,10 @@ public class TestContact {
 	String nullString=null;
 	
 	String emptyString="";
+	
+	String longemptyString="  ";
+	
+	String nonalphabetString ="123";
 	  
 	@Before
 	public void setup(){
@@ -162,18 +166,65 @@ public class TestContact {
 		}
 	}
 	
+	@Test
+	public void testTestLongEmptyforNameConstructor1(){
+		try {
+			Contact TestIDContact = new ContactImpl(31,longemptyString,"Helvetic Confederation");
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
 	
+	@Test
+	public void testTestLongEmptyforNotesConstructor1(){
+		try {
+			Contact TestIDContact = new ContactImpl(31,"Roger Federer",longemptyString);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
 	
+	@Test
+	public void testTestLongEmptyforNameConstructor2(){
+		try {
+			Contact TestIDContact = new ContactImpl(31,longemptyString);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
 	
+	@Test
+	public void testTestNonAlphabetforNameConstructor1(){
+		try {
+			Contact TestIDContact = new ContactImpl(31,nonalphabetString,"Helvetic Confederation");
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
 	
+	@Test
+	public void testTestNonAlphabetforNotesConstructor1(){
+		try {
+			Contact TestIDContact = new ContactImpl(31,"Roger Federer",nonalphabetString);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
 	
-	
-	
-	
-	
-	
-
-	
+	@Test
+	public void testTestNonAlphabetforNameConstructor2(){
+		try {
+			Contact TestIDContact = new ContactImpl(31,nonalphabetString);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
 	
 	
 }
