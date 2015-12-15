@@ -69,13 +69,14 @@ public class ContactImpl implements Contact {
 	//NEED TO ADD THE BELOW METHOD FOR THE ID TOO, ALSO RUN A TEST ON IT.
 	/*
 	*  This method is to be used in the Constructor to ensure that neither name 
-	*  or notes are null.
+	*  or notes are null, or empty, and have at least one alphabet letter.
 	*/
 	public void testNull (String input ){
-	    if ( (input == null) || (input.isEmpty()==true) ){
+	    if ( (input == null) || (input.matches(".*[a-zA-Z]+.*")==false) ){
 			throw new NullPointerException();
 		}
 	}
+	
 	
 	/*
 	* @see Contact for details on method definition.
