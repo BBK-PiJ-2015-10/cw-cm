@@ -33,13 +33,10 @@ public abstract class MeetingImpl implements Meeting {
 	public MeetingImpl(int id, Calendar date, Set<Contact> participants){
 		testId(id);
 		setId(id);
-		//this.id=id;
 		testNull(date);
 		setDate(date);
-		//this.date=date;
 		testNull(participants);
 		setParticipants(participants);
-		//this.participants=participants;
 	}
 	
 	/*

@@ -21,13 +21,14 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting {
 	}
 	
 	/*
-	*  Notes can't be null or empty. This method is to be leveraged in the Constructor method.
+	*  Notes can't be null or empty or not contain at least on alphabet letter. This method is to be leveraged in the Constructor method.
 	*/
 	public void testNotesNull (String notes){
-	    if ( (notes == null) || (notes.isEmpty()==true) ) {
+	    if ( (notes == null) || (notes.matches(".*[a-zA-Z]+.*")==false) ) {
 			throw new NullPointerException();
 		}
 	}
+	
 	
 	/*
 	*  This is display the notes of the meeting.
