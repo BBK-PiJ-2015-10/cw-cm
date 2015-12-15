@@ -18,6 +18,10 @@ public class TestPastMeeting {
 	String emptynotes="";
 	
 	String nullnotes=null;
+	
+	String longemptynotes="   ";
+	
+	String nonalphabetnotes="1234";
 	  
 	@Before
 	public void setup(){
@@ -149,6 +153,26 @@ public class TestPastMeeting {
 	}
 	
 	@Test
+	public void testTestLongEmptyforNotesConstructor(){
+		try {
+			PastMeeting TestEmptyNotesMeeting = new PastMeetingImpl(10,testdate,testparticipants,longemptynotes);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
+	
+	@Test
+	public void testTestNonAlphabetforNotesConstructor(){
+		try {
+			PastMeeting TestEmptyNotesMeeting = new PastMeetingImpl(10,testdate,testparticipants,nonalphabetnotes);
+		}
+		catch (Exception ex1){
+			assertEquals("java.lang.NullPointerException",ex1.toString());
+		}
+	}
+	
+	@Test
 	public void testTestNullforNotesConstructor(){
 		try {
 			PastMeeting TestEmptyNotesMeeting = new PastMeetingImpl(10,testdate,testparticipants,nullnotes);
@@ -157,20 +181,6 @@ public class TestPastMeeting {
 			assertEquals("java.lang.NullPointerException",ex1.toString());
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
