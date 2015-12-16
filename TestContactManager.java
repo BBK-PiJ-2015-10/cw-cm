@@ -8,7 +8,14 @@ public class TestContactManager {
 	String nullstring = null;
 	
 	String emptystring = "  ";
-	  
+	
+	
+	public static void addcontacts(ContactManager input){
+		input.addNewContact("John Mcenroe","United States");
+		input.addNewContact("Rafael Nadal","Spain");
+	}
+	
+	
 	@Before
 	public void setup(){
 		testerContactManager = new ContactManagerImpl();
@@ -17,7 +24,6 @@ public class TestContactManager {
 	
 	/*
 	*  Below are the tests related to the AddNewContact(String name, String notes) method.
-	*
 	*/
 	@Test
 	public void testAddNewContacttestIDgeneration(){		  
@@ -31,11 +37,10 @@ public class TestContactManager {
 	}
 	
 	@Test
-	public void testAddNewContacttestIDgenerationforInvalidContact(){
-		assertEquals(1,testerContactManager.addNewContact("John Mcenroe","United States"));
-		assertEquals(2,testerContactManager.addNewContact("Rafael Nadal","Spain"));
+	public void testAddNewContactTestExceptionThrowforEmptyContactNotes(){
+		TestContactManager.addcontacts(testerContactManager);
 		try {
-			assertEquals(3,testerContactManager.addNewContact("  ","  "));
+			testerContactManager.addNewContact(emptystring,emptystring);
 		}
 		catch (Exception ex){
 			assertEquals("java.lang.NullPointerException",ex.toString());
@@ -44,32 +49,75 @@ public class TestContactManager {
 	
 	
 	@Test
-	public void testAddNewContacttestEmptyStringContactNotAddedtotheContactList(){
-		assertEquals(1,testerContactManager.addNewContact("John Mcenroe","United States"));
-		assertEquals(2,testerContactManager.addNewContact("Rafael Nadal","Spain"));
-		
+	public void testAddNewContactTestExceptionThrowforNullContactNotes(){
+		TestContactManager.addcontacts(testerContactManager);
 		try {
-			assertEquals(3,testerContactManager.addNewContact(emptystring,emptystring));
+			testerContactManager.addNewContact(nullstring,nullstring);
 		}
 		catch (Exception ex){
 			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+	}
+	
+	@Test
+	public void testAddNewContacttestEmptyStringContactNotAddedtotheContactList(){
+		TestContactManager.addcontacts(testerContactManager);
+		try {
+			testerContactManager.addNewContact(emptystring,emptystring);
+		}
+		catch (NullPointerException ex){
+			// I am just capturing the exception.
 		}
 		assertEquals(2,(((ContactManagerImpl)testerContactManager).getsizeofcontactlist()));
 	}
 	
 	@Test
 	public void testAddNewContacttestNullStringContactNotAddedtotheContactList(){
-		assertEquals(1,testerContactManager.addNewContact("John Mcenroe","United States"));
-		assertEquals(2,testerContactManager.addNewContact("Rafael Nadal","Spain"));
+		TestContactManager.addcontacts(testerContactManager);
 		try {
-			assertEquals(3,testerContactManager.addNewContact(nullstring,nullstring));
+			testerContactManager.addNewContact(nullstring,nullstring);
 		}
-		catch (Exception ex){
-			assertEquals("java.lang.NullPointerException",ex.toString());
+		catch (NullPointerException ex){
+			//I am just capturing the exception.
 		}
 		assertEquals(2,(((ContactManagerImpl)testerContactManager).getsizeofcontactlist()));
 	}
 	
+	
+	/*
+	*  Below are the tests related to the Set<Contact> getContact(String name);
+	*/
+	@Test
+	public void testGetContactsTestNullStringThrowsException(){
+		TestContactManager.addcontacts(testerContactManager);
+		try {
+			testerContactManager.getContacts(nullstring);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+	}
+	
+	@Test
+	public void testGetContactsTestEmptyStringReturn(){
+		TestContactManager.addcontacts(testerContactManager);
+		assertEquals(2,testerContactManager.getContacts(emptystring).size());
+	}
+	
+	@Test
+	public void testGetContactsTestStringReturnWithNameNotInList(){
+		TestContactManager.addcontacts(testerContactManager);
+		assertEquals(0,testerContactManager.getContacts("Serena Williams").size());
+	}
+	
+	@Test
+	public void testGetContactsTestStringReturnWithNameInList(){
+		testerContactManager.addNewContact("Alexander Baltimora","United States");
+		testerContactManager.addNewContact("Alfred Pantinolli","Italia");
+		testerContactManager.addNewContact("Alexei Poppof","Russia");
+		testerContactManager.addNewContact("Ali Muhammed","Egypt");
+		assertEquals(4,testerContactManager.getContacts("Al").size());
+	}
 	
 	
 	
