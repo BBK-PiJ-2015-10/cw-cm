@@ -57,8 +57,9 @@ public class ContactManagerImpl implements ContactManager {
 		}
 		else {
 			for (int i=0; i< contactlist.size();i++){
-				if (contactlist.get(i).getName().contains(name))	
+				if (contactlist.get(i).getName().contains(name)) {	
 				result.add(contactlist.get(i));
+				}
 			}
 		}
 		return result;
@@ -82,6 +83,45 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	
+	public void testNull (Integer id){
+		if ( id == null) {
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	//Work in process
+	public Set<Contact> getContacts(int id){
+		boolean invalidID = true;
+		Set<Contact> result = new HashSet<Contact>();
+		for (int i=0; i< contactlist.size();i++){
+			if (contactlist.get(i).getId() == id) {	
+			result.add(contactlist.get(i));
+			invalidID = false;
+			}
+		}
+		if (invalidID){
+			throw new IllegalArgumentException();
+		}
+		return result;
+	}
+	
+	//work in process
+	public Set<Contact> getContacts(List<Integer> ids){
+		Set<Contact> result = new HashSet<Contact>();
+		for (int i=0; i < ids.size();i++){
+			Set<Contact> temp = getContacts(ids.get(i).intValue());
+			for (Contact eachContact : temp){
+				result.add(eachContact);
+			}
+		}
+		return result;
+	}
+	
+	//work in process
+	public Set<Contact> getContacts(int... ids){
+		Set<Contact> result = new HashSet<Contact>();
+		return result;
+	}
 	
 
 }
