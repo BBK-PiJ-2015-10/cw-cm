@@ -1,5 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.util.List;
+import java.util.LinkedList;
 
 public class TestContactManager {
 
@@ -8,6 +10,8 @@ public class TestContactManager {
 	String nullstring = null;
 	
 	String emptystring = "  ";
+	
+	int emptyint;
 	
 	
 	public static void addcontacts(ContactManager input){
@@ -119,7 +123,65 @@ public class TestContactManager {
 		assertEquals(4,testerContactManager.getContacts("Al").size());
 	}
 	
+	/*
+	*  Below are the tests related to the Set<Contact> getContact(int id);
+	*/
 	
+	@Test
+	public void testGetContactViaIDsTestSingleValidIDprovided(){
+		TestContactManager.addcontacts(testerContactManager);
+		assertEquals(false,testerContactManager.getContacts(1).isEmpty());
+	}
+	
+	@Test
+	public void testGetContactViaIDsTestSingleInvalidIDprovided(){
+		TestContactManager.addcontacts(testerContactManager);
+		try {
+			testerContactManager.getContacts(4);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+	}
+	
+	@Test
+	public void testGetContactViaIDsTestSingleEmptyIDprovided(){
+		TestContactManager.addcontacts(testerContactManager);
+		try {
+			testerContactManager.getContacts(emptyint);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+	}
+	
+	
+	/*
+	*  Below are the tests related to the Set<Contact> getContact(List<Integer> ids);
+	*/
+	@Test
+	public void testGetContactViaIDsTestMultipleValidIDprovided(){
+		List<Integer> testerList = new LinkedList<Integer>();
+		testerList.add(1);
+		testerList.add(2);
+		TestContactManager.addcontacts(testerContactManager);
+		assertEquals(2,testerContactManager.getContacts(testerList).size());
+	}
+	
+	@Test
+	public void testGetContactViaIDsTestMultipleInvalidIDprovided(){
+		List<Integer> testerList = new LinkedList<Integer>();
+		testerList.add(1);
+		testerList.add(2);
+		testerList.add(3);
+		TestContactManager.addcontacts(testerContactManager);
+		try {
+			testerContactManager.getContacts(testerList);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}	
+	}
 	
 	
 }
