@@ -2,21 +2,39 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Set;
+import java.util.HashSet;
+
 
 public class TestContactManager {
 
-	ContactManager testerContactManager;
+	private ContactManager testerContactManager;
 	
-	String nullstring = null;
+	private String nullstring = null;
 	
-	String emptystring = "  ";
+	private String emptystring = "  ";
 	
-	int emptyint;
+	private int emptyint;
+	
+	private Calendar currentdate = new GregorianCalendar(2016, 0, 14, 15, 30);
+	
+	private Calendar pastdate = new GregorianCalendar(2016, 0, 10, 15, 30);
+	
+	private Calendar futuredate = new GregorianCalendar(2016, 9, 14, 15, 30);
+	
+	private Calendar emptydate = null;
+	
+	private Set<Contact> nullContactSet = null;
+	
 	
 	
 	public static void addcontacts(ContactManager input){
 		input.addNewContact("John Mcenroe","United States");
 		input.addNewContact("Rafael Nadal","Spain");
+		input.addNewContact("Andrew Murray","U.K");
+		input.addNewContact("Novak Djokovic","Serbia");
 	}
 	
 	
@@ -72,7 +90,7 @@ public class TestContactManager {
 		catch (NullPointerException ex){
 			// I am just capturing the exception.
 		}
-		assertEquals(2,(((ContactManagerImpl)testerContactManager).getsizeofcontactlist()));
+		assertEquals(4,(((ContactManagerImpl)testerContactManager).getsizeofcontactlist()));
 	}
 	
 	@Test
@@ -84,7 +102,7 @@ public class TestContactManager {
 		catch (NullPointerException ex){
 			//I am just capturing the exception.
 		}
-		assertEquals(2,(((ContactManagerImpl)testerContactManager).getsizeofcontactlist()));
+		assertEquals(4,(((ContactManagerImpl)testerContactManager).getsizeofcontactlist()));
 	}
 	
 	
@@ -105,7 +123,7 @@ public class TestContactManager {
 	@Test
 	public void testGetContactsTestEmptyStringReturn(){
 		TestContactManager.addcontacts(testerContactManager);
-		assertEquals(2,testerContactManager.getContacts(emptystring).size());
+		assertEquals(4,testerContactManager.getContacts(emptystring).size());
 	}
 	
 	@Test
@@ -182,6 +200,90 @@ public class TestContactManager {
 			assertEquals("java.lang.IllegalArgumentException",ex.toString());
 		}	
 	}
+	
+	
+	/*
+	* Below are the tests for the int addFutureMeeting(Set<Contact> contacts, Calendar date);
+	*/
+	@Test
+	public void testAddFutureMeetingValidInputs(){
+		((ContactManagerImpl)testerContactManager).setCurrentDate(currentdate);
+		List<Integer> testerList = new LinkedList<Integer>();
+		testerList.add(1);
+		testerList.add(2);
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> validContactSet = testerContactManager.getContacts(testerList);
+		assertEquals(1,testerContactManager.addFutureMeeting(validContactSet,futuredate));
+	}
+	
+	@Test
+	public void testAddFutureMeetingInvalidDate(){
+		((ContactManagerImpl)testerContactManager).setCurrentDate(currentdate);
+		List<Integer> testerList = new LinkedList<Integer>();
+		testerList.add(1);
+		testerList.add(2);
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> validContactSet = testerContactManager.getContacts(testerList);
+		try {
+			testerContactManager.addFutureMeeting(validContactSet,pastdate);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+	}
+	
+	@Test
+	public void testAddFutureMeetingNullDate(){
+		((ContactManagerImpl)testerContactManager).setCurrentDate(currentdate);
+		List<Integer> testerList = new LinkedList<Integer>();
+		testerList.add(1);
+		testerList.add(2);
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> validContactSet = testerContactManager.getContacts(testerList);
+		try {
+			testerContactManager.addFutureMeeting(validContactSet,emptydate);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+	}
+	
+	@Test
+	public void testAddFutureMeetingNullContacts(){
+		((ContactManagerImpl)testerContactManager).setCurrentDate(currentdate);
+		List<Integer> testerList = new LinkedList<Integer>();
+		testerList.add(1);
+		testerList.add(2);
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> validContactSet = testerContactManager.getContacts(testerList);
+		try {
+			testerContactManager.addFutureMeeting(nullContactSet,futuredate);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+	}
+			
+	@Test
+	public void testAddFutureMeetingInvalidContacts(){
+		((ContactManagerImpl)testerContactManager).setCurrentDate(currentdate);
+		TestContactManager.addcontacts(testerContactManager);
+		Contact invalid1 = new ContactImpl(100,"Maria Sharampova","Russia");
+		Contact invalid2 = new ContactImpl(200,"Jennifer Capriati","USA");
+		Set<Contact> inValidContactSet = new HashSet<Contact>();
+		inValidContactSet.add(invalid1);
+		inValidContactSet.add(invalid2);
+		try {
+			testerContactManager.addFutureMeeting(inValidContactSet,futuredate);	
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.//IllegalArgumentException",ex.toString());
+		}	
+	}	
+		
+	
+	
+	
 	
 	
 }
