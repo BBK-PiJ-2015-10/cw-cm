@@ -18,16 +18,41 @@ public class ContactManagerImpl implements ContactManager {
 	private int contactidcount =0;
 	
 	/*
+	* This field keeps track of the # of meetings added to the Contact Manager. This is the generator
+	* of unique IDs for each meeting added to the list.
+	*/
+	private int meetingidcount =0;
+	
+	/*
+	* This field captures the current date of the Calendar Manager. 
+	*/
+	private Calendar currentdate;
+	
+	/*
 	* This field has the list of all Contacts added to the ContactManager.
 	*/
 	private List<Contact> contactlist;
+		
+	/*
+	* This field has the list of all Contacts added to the ContactManager.
+	*/
+	private List<FutureMeeting> futuremeetinglist;
 	
 	/*
 	* Contructor method it initializes the list.
 	*/
 	public ContactManagerImpl (){
 		this.contactlist = new LinkedList<Contact>();
+		this.futuremeetinglist = new LinkedList<FutureMeeting>();
 	}
+	
+	/*
+	* This is a setter method for the current date in the CalendarManager.
+	*/
+	public void setCurrentDate(Calendar currentdate){
+		this.currentdate = currentdate;
+	}
+	
 	
 	/*
 	* Implementation of method from interface, it leverages the contactidcount to generate unique IDs.
@@ -70,7 +95,8 @@ public class ContactManagerImpl implements ContactManager {
 	* determine if it needs to be kept or not in the future.
 	*/
 	public int getsizeofcontactlist(){
-		return contactlist.size();
+		//return contactlist.size();
+		return contactidcount;
 	}
 	
 	/*
@@ -82,9 +108,32 @@ public class ContactManagerImpl implements ContactManager {
 		}
 	}
 	
+	public void testNull (Calendar input ){
+	    if ( input == null) {
+			throw new NullPointerException();
+		}
+	}
+	
+	public void testNull (Set<Contact> input ){
+	    if ( input == null) {
+			throw new NullPointerException();
+		}
+	}
 	
 	public void testNull (Integer id){
 		if ( id == null) {
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	/*
+	*  This method compares the date being input versus the current date on the CalendarManager.
+	*  If the input date in earlier than current date, then an IllegalArgumentException is thrown.
+	*  This method is to be used within the int addFutureMeeting(Set<Contact> contacts, Calendar date)
+	*  method.
+	*/
+	public void testDate (Calendar input){
+		if (input.before(currentdate)){
 			throw new IllegalArgumentException();
 		}
 	}
@@ -117,10 +166,79 @@ public class ContactManagerImpl implements ContactManager {
 		return result;
 	}
 	
+	
+	//Need to delete this later.
+	public void printContact (Set<Contact> contacts){
+		for (Contact eachContact : contacts){
+			int eachContactid = eachContact.getId();
+			if (eachContactid >0 && eachContactid<=contactidcount){	
+			    System.out.println("This is a valid contact " +eachContact.getId());
+			}
+			else {
+				System.out.println("This is an invalid contact " +eachContact.getId());
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
 	//work in process
 	public Set<Contact> getContacts(int... ids){
 		Set<Contact> result = new HashSet<Contact>();
 		return result;
+	}
+	
+	
+	/*
+	* This an auxiliary method to test if all Set<Contacts> are in the contact list. If 
+	* they all are, then return is true, if not return is false.
+	*/
+	public boolean validContact (Set<Contact> contacts){
+		boolean result = true;
+		for (Contact eachContact : contacts){
+			int eachContactid = eachContact.getId();
+			if (eachContactid >0 && eachContactid<=contactidcount){	
+			}
+			else {
+				result = false;
+			}
+		}
+		return result;
+	}
+	
+	/*
+	* This is an IllegalArgumentException thrower in case that input pass is false.
+	*/
+	public void validEvaluator (boolean input){
+		if (input == false){
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	/*
+	* The first test ensures that if pastdate is entered, then InvalidArgumentException is thrown.
+	* the second and third tests ensures that if Null dates or contacts are entered NullPointerExceptions
+	* are thrown.
+	* validEvaluator throws an InvalidArgumentException if any of the contacts are not in the contact list.
+	*/
+	@Override
+	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
+		testDate(date);
+		testNull(date);
+		testNull(contacts);
+		validEvaluator(validContact(contacts));
+		FutureMeeting newMeeting = new FutureMeetingImpl(meetingidcount+1,date,contacts);
+		meetingidcount ++;
+		futuremeetinglist.add(newMeeting);		
+		return meetingidcount;
+	}
+	
+	//This is for testing only
+	public List<Contact> getContactList(){
+		return contactlist;
 	}
 	
 
