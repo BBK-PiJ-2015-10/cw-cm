@@ -54,8 +54,7 @@ public class TestContactManager {
 		ValidContactSetResult.add(new ContactImpl(4,"Novak Djokovic","Serbia"));
 		return ValidContactSetResult;
 	}
-	
-	
+		
 	/*
 	* This method returns an a set of Contacts that are not in the list of Contacts. 
 	* This is to be used on several tests for the method:
@@ -67,7 +66,17 @@ public class TestContactManager {
 		InValidContactSetResult.add(new ContactImpl(505,"Maria Sharampova","Russia"));
 		return InValidContactSetResult;
 	}
-		
+	
+	/*
+	* This method adds a couple of valid Future meetings to a ContactManager input. 
+	* This is to be used on several tests for the method:
+    *    - FutureMeeting getFutureMeeting(int id);
+	*/
+	public static void add3futuremeetings (ContactManager input){
+		input.addFutureMeeting(validContactSet(),new GregorianCalendar(2018, 9, 14, 15, 30));
+		input.addFutureMeeting(validContactSet(),new GregorianCalendar(2019, 1, 14, 15, 30));
+		input.addFutureMeeting(validContactSet(),new GregorianCalendar(2020, 2, 14, 15, 30));
+	}
 	
 	@Before
 	public void setup(){
@@ -341,7 +350,51 @@ public class TestContactManager {
 		}	
 	}	
 		
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	/*
+	* Below are the tests for the int FutureMeeting getFutureMeeting(int id);
+	*/
 	
+	/* Passing a valid input, testing that FutureMeeting returned matches the id, date, size, and each element
+	* of the participants entered into that meeting.
+	*/
+	@Test
+	public void testGetFutureMeetingValidMeetingInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testNotParticipantsMeeting1 = invalidContactSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		assertEquals(1,testerContactManager.getFutureMeeting(1).getId());
+		assertEquals(futuredate,testerContactManager.getFutureMeeting(1).getDate());
+		assertEquals(testParticipantsMeeting1.size(),testerContactManager.getFutureMeeting(1).getContacts().size());
+		Set<Contact> meeting1Participants = testerContactManager.getFutureMeeting(1).getContacts();
+		assertEquals(true,meeting1Participants.equals(testParticipantsMeeting1));
+		assertEquals(false,meeting1Participants.equals(testNotParticipantsMeeting1));
+	}	
+	
+	/* Passing a meeting ID non existent, expecting the return to be null.
+	*/
+	@Test
+	public void testGetFutureMeetingNotExistingMeetingInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		assertEquals(null,testerContactManager.getFutureMeeting(4));
+	}	
+	
+	/* Passing a meeting ID that is in the past, expecting the return to be an IllegalArgumentException.
+	*/
+	@Test
+	public void testGetFutureMeetingPastMeetingInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2018, 9, 15, 15, 30));
+		try {
+			testerContactManager.getFutureMeeting(1);
+		}
+		catch (Exception ex) {
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+	}
 	
 	
 	
