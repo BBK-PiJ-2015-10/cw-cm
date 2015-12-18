@@ -50,6 +50,51 @@ public interface ContactManager {
 	Set<Contact> getContacts(List<Integer> ids);
 	
 	Set<Contact> getContacts(int... ids);
+	
+	
+	/**
+	* Add a meeting to be held in the future.
+	*
+	* An ID is returned when the meeting is put into the system. This ID
+	* must be possitive and non-zero.
+	*
+	* @param contacts a list of the contacts that will participate in the meeting.
+	* @param date the date on which the meeting will take place.
+	* @return the ID for the meeting.
+	* @throws IllegaArgumentException if the meeting is set for a time
+	* in the past, or if any contact is unknown / non-existent.
+	* @throws NullPointerException if the Contact or the date are null.
+	*
+	*/
+	int addFutureMeeting(Set<Contact> contacts, Calendar date);
+	
+	/**
+	* Returns the FUTURE meeting with the requested ID, or null if there is none.
+	* 
+	* @param id the ID for the meeting.
+	* @return the meeting with the requested ID, or null if there is none.
+	* @throws IllegaArgumentException if there is a meeting with that ID happening in the past.
+	*
+	*/
+	FutureMeeting getFutureMeeting(int id);
+	
+	/**
+	* Add notes to a meeting
+	* 
+	* This method is used when a future meeting takes place, and is
+	* then converted to a past meeting (with notes) and returned.
+	*
+	* It can also be used to add notes to a past meeting at a later date.
+	*
+	* @param id the ID of the meeting.
+	* @param text messages to be added about the meeting.
+	* @throws IllegaArgumentException if the meeting doesn't existent.
+	* @throws IllegalStateException if the meeting is set for a date in the future.
+	* @throws NullPointerException if the notes are null.
+	*
+	*/
+	//PastMeeting addMeetingNotes (int id, String text);
+	
 
 	//int addFutureMeeting (Set<Contact> contacts, Calendar date);
 	

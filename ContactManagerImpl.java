@@ -36,14 +36,20 @@ public class ContactManagerImpl implements ContactManager {
 	/*
 	* This field has the list of all Contacts added to the ContactManager.
 	*/
-	private List<FutureMeeting> futuremeetinglist;
+	private List<FutureMeeting> meetinglist;
+	
+	private List<PastMeeting> pastmeetinglist;
+	
+	private List<Integer> pastmeetingidlist;
 	
 	/*
 	* Contructor method it initializes the list.
 	*/
 	public ContactManagerImpl (){
 		this.contactlist = new LinkedList<Contact>();
-		this.futuremeetinglist = new LinkedList<FutureMeeting>();
+		this.meetinglist = new LinkedList<FutureMeeting>();
+		this.pastmeetinglist = new LinkedList<PastMeeting>();
+		this.pastmeetingidlist = new LinkedList<Integer>();
 	}
 	
 	/*
@@ -144,8 +150,8 @@ public class ContactManagerImpl implements ContactManager {
 		Set<Contact> result = new HashSet<Contact>();
 		for (int i=0; i< contactlist.size();i++){
 			if (contactlist.get(i).getId() == id) {	
-			result.add(contactlist.get(i));
-			invalidID = false;
+				result.add(contactlist.get(i));
+				invalidID = false;
 			}
 		}
 		if (invalidID){
@@ -165,24 +171,6 @@ public class ContactManagerImpl implements ContactManager {
 		}
 		return result;
 	}
-	
-	
-	//Need to delete this later.
-	public void printContact (Set<Contact> contacts){
-		for (Contact eachContact : contacts){
-			int eachContactid = eachContact.getId();
-			if (eachContactid >0 && eachContactid<=contactidcount){	
-			    System.out.println("This is a valid contact " +eachContact.getId());
-			}
-			else {
-				System.out.println("This is an invalid contact " +eachContact.getId());
-			}
-		}
-	}
-	
-	
-	
-	
 	
 	
 	//work in process
@@ -210,7 +198,8 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/*
-	* This is an IllegalArgumentException thrower in case that input pass is false.
+	* This is an IllegalArgumentException thrower in case that input being passed is false.
+	* This method is being leveraged on getFutureMeeting(), addFutureMeeting() methods.
 	*/
 	public void validEvaluator (boolean input){
 		if (input == false){
@@ -232,7 +221,7 @@ public class ContactManagerImpl implements ContactManager {
 		validEvaluator(validContact(contacts));
 		FutureMeeting newMeeting = new FutureMeetingImpl(meetingidcount+1,date,contacts);
 		meetingidcount ++;
-		futuremeetinglist.add(newMeeting);		
+		meetinglist.add(newMeeting);		
 		return meetingidcount;
 	}
 	
@@ -240,6 +229,42 @@ public class ContactManagerImpl implements ContactManager {
 	public List<Contact> getContactList(){
 		return contactlist;
 	}
+	
+	/*
+	* This method compares a particular meeting id with the list of meeting ids of PastMeetings.
+	* Returns false if the meeting id entered is in the PastMeeting list of IDs.
+	* The method is to be used in the getFutureMeeting method.
+	*/
+	public boolean testNotInPastList (int id){
+		boolean result = true;
+		for (int i=0; i< pastmeetingidlist.size();i++){
+			if (pastmeetingidlist.get(i) == id) {	
+				result = false;
+			}	
+		}
+		return result;	
+	}
+	
+	/*
+	* Implementation of method from interface.
+	* testNotInPastList will return false if id entered is in the past meeting list.
+	* If testNotInPastList has a false value, validEvaluator will throw an IllegalArgumentException. 
+	* If the meeting is found in the meeting list, then it returned. If not, null is returned.
+	*/
+	@Override
+	public FutureMeeting getFutureMeeting(int id){
+		validEvaluator(testNotInPastList(id));
+		for (int i=0; i< meetinglist.size();i++){
+			if (meetinglist.get(i).getId() == id) {	
+					return meetinglist.get(i);
+			}	
+		}
+		return null;
+	}
+	
+	//@Override
+	//public PastMeeting addMeetingNotes (int id, String text){
+	//}
 	
 
 }
