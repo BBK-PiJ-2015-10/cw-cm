@@ -93,7 +93,7 @@ public interface ContactManager {
 	* @throws NullPointerException if the notes are null.
 	*
 	*/
-	//PastMeeting addMeetingNotes (int id, String text);
+	PastMeeting addMeetingNotes (int id, String text);
 	
 
 	//int addFutureMeeting (Set<Contact> contacts, Calendar date);

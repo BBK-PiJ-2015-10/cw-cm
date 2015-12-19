@@ -101,9 +101,18 @@ public class ContactManagerImpl implements ContactManager {
 	* determine if it needs to be kept or not in the future.
 	*/
 	public int getsizeofcontactlist(){
-		//return contactlist.size();
-		return contactidcount;
+		return contactlist.size();
+		//return contactidcount;
 	}
+	
+	public int getSizeofMeetingList(){
+		return meetinglist.size();
+	}
+	
+	public int getSizeofPastMeetingList(){
+		return pastmeetinglist.size();
+	}
+	
 	
 	/*
 	* This is an NullPointerException method to be leveraged in the getContact method.
@@ -144,6 +153,18 @@ public class ContactManagerImpl implements ContactManager {
 		}
 	}
 	
+	
+	/*
+	*  This method compares the date being input versus the current date on the CalendarManager.
+	*  If the input date is later than current date, then an IllegalStateException is thrown.
+	*  This method is to be used within the int addMeetingNotes(int id, String txt) method
+	*/
+	public void testDateInPast (Calendar input){
+		if (input.after(currentdate)){
+			throw new IllegalStateException();
+		}
+	}
+		
 	//Work in process
 	public Set<Contact> getContacts(int id){
 		boolean invalidID = true;
@@ -235,44 +256,67 @@ public class ContactManagerImpl implements ContactManager {
 	* Returns false if the meeting id entered is in the PastMeeting list of IDs.
 	* The method is to be used in the getFutureMeeting method.
 	*/
-	public boolean testNotInPastList (int id){
+	public boolean testNotInPastMeetingList (int id){
 		boolean result = true;
-		for (int i=0; i< pastmeetingidlist.size();i++){
-			if (pastmeetingidlist.get(i) == id) {	
+		for (int i=0; i< pastmeetinglist.size();i++){
+			if (pastmeetinglist.get(i).getId() == id) {	
 				result = false;
 			}	
 		}
 		return result;	
 	}
 	
+	public boolean testInMeetingList (int id){
+		boolean result = false;
+		for (int i=0; i< meetinglist.size();i++){
+			if (meetinglist.get(i).getId() == id) {	
+				result = true;
+			}	
+		}
+		return result;	
+	}
+	
+	
 	/*
 	* Implementation of method from interface.
-	* testNotInPastList will return false if id entered is in the past meeting list.
-	* If testNotInPastList has a false value, validEvaluator will throw an IllegalArgumentException. 
-	* If the meeting is found in the meeting list, then it returned. If not, null is returned.
+	* testDate will throw an IllegalArgumentException if meeting date is before the CurrentDate of ContactManager.
+	* If no meeting is found under that ID, null is returned.
 	*/
 	@Override
 	public FutureMeeting getFutureMeeting(int id){
-		validEvaluator(testNotInPastList(id));
 		for (int i=0; i< meetinglist.size();i++){
 			if (meetinglist.get(i).getId() == id) {	
+					testDate(meetinglist.get(i).getDate());
 					return meetinglist.get(i);
 			}	
 		}
 		return null;
 	}
 	
-	//@Override
-	//public PastMeeting addMeetingNotes (int id, String text){
-	//}
-	
+	/*
+	* Implementation of method from interface.
+	* testInMeetinglist will return true if a meeting with that id is found in the meetinglist.
+	* validEvaluator will throw an IllegalArgumentException if the value passed by testinMeeting is false. Meaning,
+	* if the is is not found in the meeting id.
+	* testDate will throw an IllegalStateException if meeting date is after the CurrentDate of ContactManager.
+	* If notes are null or empty a NullPointerException is thrown, this is coded directly in the PastMeetingImpl 
+	* constructor method.
+	* If any input is invalid (date, id, notes) this method returns null and nothing is added to the PastMeetingList.
+	*/
 	@Override
-	public PastMeeting addMeetingNotes (int id, String text){
-		Set<Contact> InValidContactSetResult = new HashSet<Contact>();
-		InValidContactSetResult.add(new ContactImpl(500,"Serena Williams","United States"));
-		InValidContactSetResult.add(new ContactImpl(505,"Maria Sharampova","Russia"));
-		PastMeeting result = new PastMeetingImpl(1,currentdate, InValidContactSetResult,"Ale");
-		return result;
+	public PastMeeting addMeetingNotes (int id, String notes){
+		validEvaluator(testInMeetingList(id));
+		if (testInMeetingList(id)){
+			for (int i=0; i< meetinglist.size();i++){
+				if (meetinglist.get(i).getId() == id) {	
+					testDateInPast(meetinglist.get(i).getDate());
+					PastMeeting newPastMeeting = new PastMeetingImpl(id,meetinglist.get(i).getDate(),meetinglist.get(i).getContacts(),notes);
+					pastmeetinglist.add(newPastMeeting);
+					return newPastMeeting;
+				}
+			}
+		}
+		return null;
 	}
 
 }
