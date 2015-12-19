@@ -318,5 +318,20 @@ public class ContactManagerImpl implements ContactManager {
 		}
 		return null;
 	}
+	
+	/*
+	* Implementation of method from interface.
+	* If no id is found it returns null, otherwise it returns the Meeting requested. 
+	*/
+	@Override
+	public Meeting getMeeting (int id){
+		for (int i=0; i< meetinglist.size();i++){
+			if (meetinglist.get(i).getId() == id) {	
+					return meetinglist.get(i);
+			}	
+		}
+		return null;
+	}
+	
 
 }

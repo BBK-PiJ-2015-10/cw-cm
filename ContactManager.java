@@ -95,6 +95,15 @@ public interface ContactManager {
 	*/
 	PastMeeting addMeetingNotes (int id, String text);
 	
+	/**
+	* Returns the meeting with the requested ID.
+	* 
+	* @param id the ID of the meeting.
+	* @return the meeting with the requested ID, or null if there is none.
+	*
+	*/
+	Meeting getMeeting(int id);
+	
 
 	//int addFutureMeeting (Set<Contact> contacts, Calendar date);
 	
