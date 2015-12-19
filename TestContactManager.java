@@ -55,7 +55,19 @@ public class TestContactManager {
 		ValidContactSetResult.add(new ContactImpl(4,"Novak Djokovic","Serbia"));
 		return ValidContactSetResult;
 	}
-		
+	
+	/*
+	* This method returns an a set of Contacts that is in the list of Contacts. 
+	* This is to be used on several tests for the method:
+    *    //- addFutureMeeting(Set<Contact> contacts, Calendar date)
+	*/
+	public static Set<Contact> validContactSmallerSet(){
+		Set<Contact> ValidContactSetResult = new HashSet<Contact>();
+		ValidContactSetResult.add(new ContactImpl(1,"John Mcenroe","United States"));
+		ValidContactSetResult.add(new ContactImpl(2,"Ravael Nadal","Spain"));
+		return ValidContactSetResult;
+	}
+			
 	/*
 	* This method returns an a set of Contacts that are not in the list of Contacts. 
 	* This is to be used on several tests for the method:
@@ -495,10 +507,55 @@ public class TestContactManager {
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	/*
+	* Below are the tests for the Meeting getMeeting(int id);
+	*/
 
-
-
+	/* Passing an invalidinput (a meeting ID that doesn't exist), expecting a Nullreturn.
+	*/
+	@Test
+	public void testGetMeetingInValidMeetingIDInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		assertEquals(null,testerContactManager.getMeeting(5));
+		
+	}
 	
+	/* Passing a validinput expecting a Meeting to be return. Testing that the field of the meeting
+	*  (id, participants, date) match the field of the meeting that I had previously added to the list.
+	*/
+	@Test
+	public void testGetMeetingValidMeetingIDInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testNotParticipantsMeeting1 = invalidContactSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		assertEquals(1,testerContactManager.getMeeting(1).getId());
+		assertEquals(futuredate,testerContactManager.getMeeting(1).getDate());
+		assertEquals(testParticipantsMeeting1.size(),testerContactManager.getMeeting(1).getContacts().size());
+		Set<Contact> meeting1Participants = testerContactManager.getMeeting(1).getContacts();
+		assertEquals(true,meeting1Participants.equals(testParticipantsMeeting1));
+		assertEquals(false,meeting1Participants.equals(testNotParticipantsMeeting1));
+	}
 	
+	/* Passing a validinput expecting a Meeting to be return. Testing that the field of the meeting
+	*  (id, participants, date) match the field of the meeting that I had previously added to the list.
+	*/
+	@Test
+	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheList(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testParticipantsMeeting2 = validContactSmallerSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		testerContactManager.addFutureMeeting(testParticipantsMeeting2,furtherfuturedate);
+		assertEquals(2,testerContactManager.getMeeting(2).getId());
+		assertEquals(furtherfuturedate,testerContactManager.getMeeting(2).getDate());
+		assertEquals(testParticipantsMeeting2.size(),testerContactManager.getMeeting(2).getContacts().size());
+		Set<Contact> meeting2Participants = testerContactManager.getMeeting(2).getContacts();
+		assertEquals(true,meeting2Participants.equals(testParticipantsMeeting2));
+		assertEquals(false,meeting2Participants.equals(testParticipantsMeeting1));
+	}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 }
