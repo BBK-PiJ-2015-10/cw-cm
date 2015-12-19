@@ -26,6 +26,7 @@ public class TestContactManager {
 	
 	private Calendar furtherfuturedate = new GregorianCalendar(2017, 1, 14, 15, 30);
 	
+	
 	private Calendar emptydate = null;
 	
 	private Set<Contact> nullContactSet = null;
@@ -396,6 +397,107 @@ public class TestContactManager {
 		}
 	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*
+	* Below are the tests for the PastMeeting addMeetingNotes(int id, String text);
+	*/
+	
+	/* Passing a valid input, expecting a PastMeeting to be created and added to PastMeetingList. Testing the size
+	* of the list before and after the AddMeetingNotes() method is executed.
+	*/
+	@Test
+	public void testAddMeetingNotesValidInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+		testerContactManager.addMeetingNotes(1,"Game 1 was a succcess.");
+		assertEquals(1,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+
+
+	/* Passing a an invalidinput (a meeting ID with a date in the future), expecting an IllegalStateException
+    * to be thrown, no PastMeeting to be created or added to PastMeetingList. Testing that the exception is thrown
+	* and that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	*/
+	@Test
+	public void testAddMeetingNotesInValidDateInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+		try {
+			testerContactManager.addMeetingNotes(3,"Game 1 was a succcess.");
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalStateException",ex.toString());
+		}
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+	
+	/* Passing an invalidinput (a meeting ID that doesn't exist), expecting an IllegalArgumentException
+    * to be thrown, no PastMeeting to be created or added to PastMeetingList. Testing that the exception is thrown
+	* and that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	*/
+	@Test
+	public void testAddMeetingNotesInValidMeetingIDInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+		try {
+			testerContactManager.addMeetingNotes(4,"Game 1 was a succcess.");
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+	
+	/* Passing an invalidinput (null notes), expecting a NullPointerException
+    * to be thrown, no PastMeeting to be created or added to PastMeetingList. Testing that the exception is thrown
+	* and that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	*/
+	@Test
+	public void testAddMeetingNotesInValidMeetingNullNotesInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+		try {
+			testerContactManager.addMeetingNotes(1,nullstring);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+	
+	/* Passing an invalidinput (empty notes), expecting a NullPointerException
+    * to be thrown, no PastMeeting to be created or added to PastMeetingList. Testing that the exception is thrown
+	* and that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	*/
+	@Test
+	public void testAddMeetingNotesInValidMeetingEmptyNotesInput(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+		try {
+			testerContactManager.addMeetingNotes(1,emptystring);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+
+
+
 	
 	
 	

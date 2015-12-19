@@ -266,5 +266,13 @@ public class ContactManagerImpl implements ContactManager {
 	//public PastMeeting addMeetingNotes (int id, String text){
 	//}
 	
+	@Override
+	public PastMeeting addMeetingNotes (int id, String text){
+		Set<Contact> InValidContactSetResult = new HashSet<Contact>();
+		InValidContactSetResult.add(new ContactImpl(500,"Serena Williams","United States"));
+		InValidContactSetResult.add(new ContactImpl(505,"Maria Sharampova","Russia"));
+		PastMeeting result = new PastMeetingImpl(1,currentdate, InValidContactSetResult,"Ale");
+		return result;
+	}
 
 }
