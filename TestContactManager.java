@@ -695,7 +695,14 @@ public class TestContactManager {
 	}
 	
 	
-	
+	/* Passing a valid input, but no meeting on that date (testing that a null list is returned).
+	*/
+	@Test
+	public void testGetMeetingListOnValidinputNoMeetingonDate(){
+		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
+		List<Meeting> testresult = testerContactManager.getMeetingListOn(new GregorianCalendar(2016, 0, 30));
+		assertEquals(true,testresult.isEmpty());
+	}
 	
 	
 	
