@@ -46,7 +46,7 @@ public class TestContactManager {
 	* This method adds an additional list of Contacts to the ContactManager instance. 
 	* This is to be used on several tests.
 	*/
-	public static void addmorecontacts(ContactManager input){
+	public static void addMoreContacts(ContactManager input){
 		input.addNewContact("Pete Sampras","United States");
 		input.addNewContact("Jimmi Connors","United States");
 		input.addNewContact("Ivan Lendl","Czeck Republic");
@@ -101,6 +101,33 @@ public class TestContactManager {
 		input.addFutureMeeting(validContactSet(),new GregorianCalendar(2019, 1, 14, 15, 30));
 		input.addFutureMeeting(validContactSet(),new GregorianCalendar(2020, 2, 14, 15, 30));
 	}
+	
+	/*
+	* This method adds a couple of valid Future meetings to a ContactManager input. 
+	* This is to be used on several tests for the method:
+    *    - FutureMeeting getFutureMeeting(int id);
+	*/
+	public static void add4FutureMeetings3onSameDate (ContactManager input){
+		TestContactManager.addcontacts(input);
+		TestContactManager.addMoreContacts(input);
+		Set<Contact> meeting1Set = new HashSet<Contact>();
+		meeting1Set.add(new ContactImpl(1,"John Mcenroe","United States"));
+		meeting1Set.add(new ContactImpl(2,"Rafael Nadal","Spain"));
+		input.addFutureMeeting(meeting1Set,new GregorianCalendar(2016, 0, 22, 18, 45));
+		Set<Contact> meeting2Set = new HashSet<Contact>();
+		meeting2Set.add(new ContactImpl(5,"Pete Sampras","United States"));
+		meeting2Set.add(new ContactImpl(6,"Jimmi Connors","United States"));
+		input.addFutureMeeting(meeting2Set,new GregorianCalendar(2016, 0, 23, 18, 45));
+		Set<Contact> meeting3Set = new HashSet<Contact>();
+		meeting3Set.add(new ContactImpl(3,"Andrew Murray","U.K."));
+		meeting3Set.add(new ContactImpl(4,"Novak Djokovic","Serbia"));
+		input.addFutureMeeting(meeting3Set,new GregorianCalendar(2016, 0, 22, 20, 00));
+		Set<Contact> meeting4Set = new HashSet<Contact>();
+		meeting4Set.add(new ContactImpl(7,"Ivan Lendl","Czeck Republic"));
+		meeting4Set.add(new ContactImpl(8,"Yannick Noah","France"));
+		input.addFutureMeeting(meeting4Set,new GregorianCalendar(2016, 0, 22, 10, 00));
+	}
+	
 	
 	@Before
 	public void setup(){
@@ -553,19 +580,58 @@ public class TestContactManager {
 	*  (id, participants, date) match the field of the meeting that I had previously added to the list.
 	*/
 	@Test
-	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheList(){
+	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart1(){
 		TestContactManager.addcontacts(testerContactManager);
 		Set<Contact> testParticipantsMeeting1 = validContactSet();
 		Set<Contact> testParticipantsMeeting2 = validContactSmallerSet();
 		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
 		testerContactManager.addFutureMeeting(testParticipantsMeeting2,furtherfuturedate);
 		assertEquals(2,testerContactManager.getMeeting(2).getId());
+	}
+	
+	@Test
+	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart2(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testParticipantsMeeting2 = validContactSmallerSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		testerContactManager.addFutureMeeting(testParticipantsMeeting2,furtherfuturedate);
 		assertEquals(furtherfuturedate,testerContactManager.getMeeting(2).getDate());
+	}
+	
+	@Test
+	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart3(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testParticipantsMeeting2 = validContactSmallerSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		testerContactManager.addFutureMeeting(testParticipantsMeeting2,furtherfuturedate);
 		assertEquals(testParticipantsMeeting2.size(),testerContactManager.getMeeting(2).getContacts().size());
+	}
+	
+	@Test
+	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart4(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testParticipantsMeeting2 = validContactSmallerSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		testerContactManager.addFutureMeeting(testParticipantsMeeting2,furtherfuturedate);
 		Set<Contact> meeting2Participants = testerContactManager.getMeeting(2).getContacts();
 		assertEquals(true,meeting2Participants.equals(testParticipantsMeeting2));
 		assertEquals(false,meeting2Participants.equals(testParticipantsMeeting1));
 	}
+	
+	@Test
+	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart5(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testParticipantsMeeting2 = validContactSmallerSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		testerContactManager.addFutureMeeting(testParticipantsMeeting2,furtherfuturedate);
+		Set<Contact> meeting2Participants = testerContactManager.getMeeting(2).getContacts();
+		assertEquals(false,meeting2Participants.equals(testParticipantsMeeting1));
+	}
+		
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
@@ -576,35 +642,66 @@ public class TestContactManager {
 	/* Passing a validinput (testing that the output list contains the proper meetings).
 	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
 	* on a different date. Testing that the List being return from this method based on
-	* the date of meetings (1,3,4) will be size 3 and will include those 3 meetings.
+	* the date of meetings (1,3,4) will be size 3 and will include those 3 meetings an
+	ordered from older to more recent.
 	*/
 	@Test
-	public void testGetMeetingListOnValidnput(){
-		TestContactManager.addcontacts(testerContactManager);
-		TestContactManager.addmorecontacts(testerContactManager);
-		Set<Contact> meeting1Set = new HashSet<Contact>();
-		meeting1Set.add(new ContactImpl(1,"John Mcenroe","United States"));
-		meeting1Set.add(new ContactImpl(2,"Rafael Nadal","Spain"));
-		testerContactManager.addFutureMeeting(meeting1Set,new GregorianCalendar(2016, 0, 22, 18, 45));
-		Set<Contact> meeting2Set = new HashSet<Contact>();
-		meeting2Set.add(new ContactImpl(5,"Pete Sampras","United States"));
-		meeting2Set.add(new ContactImpl(6,"Jimmi Connors","United States"));
-		testerContactManager.addFutureMeeting(meeting1Set,new GregorianCalendar(2016, 0, 23, 18, 45));
-		Set<Contact> meeting3Set = new HashSet<Contact>();
-		meeting3Set.add(new ContactImpl(3,"Andrew Murray","U.K."));
-		meeting3Set.add(new ContactImpl(4,"Novak Djokovic","Serbia"));
-		testerContactManager.addFutureMeeting(meeting3Set,new GregorianCalendar(2016, 0, 22, 20, 00));
-		Set<Contact> meeting4Set = new HashSet<Contact>();
-		meeting4Set.add(new ContactImpl(7,"Ivan Lendl","Czeck Republic"));
-		meeting4Set.add(new ContactImpl(8,"Yannick Noah","France"));
-		testerContactManager.addFutureMeeting(meeting4Set,new GregorianCalendar(2016, 0, 22, 10, 00));
+	public void testGetMeetingListOnValidinputPart1(){
+		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
 		List<Meeting> testresult = testerContactManager.getMeetingListOn(new GregorianCalendar(2016, 0, 22));
-		assertEquals(3,testresult.size());
-		assertEquals(true,testresult.contains(testerContactManager.getMeeting(1)));
-		assertEquals(false,testresult.contains(testerContactManager.getMeeting(2)));
-		assertEquals(true,testresult.contains(testerContactManager.getMeeting(3)));
-		assertEquals(true,testresult.contains(testerContactManager.getMeeting(4)));
+		assertEquals(3,testresult.size());	
 	}
+	
+	@Test
+	public void testGetMeetingListOnValidinputPart2(){
+		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
+		List<Meeting> testresult = testerContactManager.getMeetingListOn(new GregorianCalendar(2016, 0, 22));
+		assertEquals(false,testresult.contains(testerContactManager.getMeeting(2)));	
+	}
+	
+	@Test
+	public void testGetMeetingListOnValidinputPart3(){
+		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
+		List<Meeting> testresult = testerContactManager.getMeetingListOn(new GregorianCalendar(2016, 0, 22));
+		assertEquals(4,testresult.get(0).getId());	
+	}
+	
+	@Test
+	public void testGetMeetingListOnValidinputPart4(){
+		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
+		List<Meeting> testresult = testerContactManager.getMeetingListOn(new GregorianCalendar(2016, 0, 22));
+		assertEquals(1,testresult.get(1).getId());	
+	}
+	
+	@Test
+	public void testGetMeetingListOnValidinputPart5(){
+		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
+		List<Meeting> testresult = testerContactManager.getMeetingListOn(new GregorianCalendar(2016, 0, 22));
+		assertEquals(3,testresult.get(2).getId());	
+	}
+	
+	
+	/* Passing an Invalidinput (testing that a NullPointerException is thrown).
+	*/
+	@Test
+	public void testGetMeetingListOnInValidinputPart1(){
+		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
+		try {
+			List<Meeting> testresult = testerContactManager.getMeetingListOn(emptydate);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
