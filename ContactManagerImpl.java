@@ -4,6 +4,8 @@ import java.util.Set;
 //import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashSet;
+import java.util.Comparator;
+import java.util.Collections;
 
 /*
 *  This is the implementation of ContactManager using LinkedList.
@@ -332,6 +334,57 @@ public class ContactManagerImpl implements ContactManager {
 		}
 		return null;
 	}
+	
+	
+	/*
+	* This a method to compare if two calendar objects ocurred in the same date. 
+	* This method is being leveraged on @see (getMeetingListOn).
+	*/
+	public boolean sameDate (Calendar input1, Calendar input2){
+		boolean result = false;
+		if ((input1.get(Calendar.YEAR)==input2.get(Calendar.YEAR)) && 
+			    (input1.get(Calendar.MONTH)==input2.get(Calendar.MONTH)) &&
+			     (input1.get(Calendar.DAY_OF_MONTH)==input2.get(Calendar.DAY_OF_MONTH))
+			) 
+			{
+				result = true;
+			}
+			return result;
+	}
+	
+	
+	/*
+	* This a chronologically list sorter to be leveraged on getMeetingListOn method.
+	*/
+	public void sortMeetingList(List<Meeting> input){
+		Collections.sort(input, (Meeting input1, Meeting input2) ->
+			(input1.getDate().compareTo(input2.getDate()))		
+		);
+	}
+	
+	
+	/*
+	* Implement method from interface.
+	* testNull(date) will throw a NullPointerException if date is empty
+	* sameDate is used to evaluate each date of the meetinglist to the date passed in
+	* the argument.
+	* sortMeetingList is a sorter based on chronological meeting date.
+	*/
+	@Override
+	public List<Meeting> getMeetingListOn(Calendar date){
+		testNull(date);
+		List<Meeting> result = new LinkedList<Meeting>();
+		for (int i=0; i< meetinglist.size();i++){
+			if (sameDate(meetinglist.get(i).getDate(),date)) {	
+					result.add(meetinglist.get(i));
+			}	
+		}
+		sortMeetingList(result);
+		return result;
+	}
+	
+	
+	
 	
 
 }

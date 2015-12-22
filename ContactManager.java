@@ -104,6 +104,21 @@ public interface ContactManager {
 	*/
 	Meeting getMeeting(int id);
 	
+	
+	/**
+	* Returns the list of meetings that are scheduled for, or that took
+	* place on, the specified date.
+	*
+	* If there are none, the returned list will be empty. Otherwise,
+	* the list will be chrnologically sorted and will not contain any
+	* duplicates.
+	*
+	* @param date the date
+	* @return the list of meetings
+	* @throws NullPointerException if the date is null
+	*/
+	List<Meeting> getMeetingListOn(Calendar date);
+	
 
 	//int addFutureMeeting (Set<Contact> contacts, Calendar date);
 	
