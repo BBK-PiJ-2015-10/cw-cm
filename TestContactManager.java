@@ -130,7 +130,21 @@ public class TestContactManager {
 		input.addFutureMeeting(meeting4Set,new GregorianCalendar(2016, 0, 22, 10, 00));
 	}
 	
+	/*
+	* This is a auxiliary method leverated on the different tests for getPastMeetingListFor (Contact contact)
+	*
+	*/
+
 	
+	public static void add2PastMeetings (ContactManager input){
+		TestContactManager.addcontacts(input);
+		TestContactManager.addMoreContacts(input);
+		TestContactManager.add3futuremeetings(input);
+		((ContactManagerImpl)input).setCurrentDate(new GregorianCalendar(2020,0,14,15,30));
+		input.addMeetingNotes(2,"This was the second meeting");
+		input.addMeetingNotes(1, "This was the first meeting");
+	}
+		
 	@Before
 	public void setup(){
 		testerContactManager = new ContactManagerImpl();
@@ -798,7 +812,77 @@ public class TestContactManager {
 		}
 	}
 	
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+	* Below are the tests for the List<PastMeeting> getPastMeetingListFor(Calendar contact);
+	*/
+		
+	/*
+	* Passing a valid input. Testing that returns all meetings added to the list, since
+	* they all meet the passing criteria of the method.
+	*/
+	@Test
+	public void testGetPastMeetingListForValidinputPart1(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		assertEquals(2,testerContactManager.getPastMeetingListFor(testContact).size());	
+	}
+
+	/*
+	* Passing a valid input. Testing if the first meeting in the list is the one
+	* with the earliest date.
+	*/
+	@Test
+	public void testGetPastMeetingListValidinputPart2TestingChronoOrder(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		assertEquals(new GregorianCalendar(2018, 9, 14, 15, 30),testerContactManager.getPastMeetingListFor(testContact).get(0).getDate());	
+	}
 	
+   /*
+	* Passing a valid input, but who doesn't have any past meetings.
+	* Testing that returns a list that is empty.
+	*/
+	@Test
+	public void testGetPastMeetingListForContactWithNoMeetings(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		Contact testContact = new ContactImpl(5,"Pete Sampras","United States");
+		assertEquals(true,testerContactManager.getPastMeetingListFor(testContact).isEmpty());	
+	}
+	
+	/*
+	* Passing an invalid input (a Contact that doesn't exist), testing the IllegalArgumentException.
+	*/
+	@Test
+	public void testGetPastMeetingListForContactNonExistent(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		Contact testContact = new ContactImpl(25,"Non Existent Contact","Mars");
+		try {
+			testerContactManager.getPastMeetingListFor(testContact);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+	}
+	
+	/*
+	* Passing an invalid input (a null Contact), testing the NullPointerException.
+	*/
+	@Test
+	public void testGetPastMeetingListForNullContact(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		try {
+			testerContactManager.getPastMeetingListFor(nullContact);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+	}
+	
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+  
 	
 	
 }
