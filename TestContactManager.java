@@ -26,10 +26,12 @@ public class TestContactManager {
 	
 	private Calendar furtherfuturedate = new GregorianCalendar(2017, 1, 14, 15, 30);
 	
-	
 	private Calendar emptydate = null;
 	
 	private Set<Contact> nullContactSet = null;
+	
+	private Contact nullContact = null;
+	
 	
 	/*
 	* This method adds a list of Contacts to the ContactManager instance. 
@@ -705,10 +707,82 @@ public class TestContactManager {
 	}
 	
 	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	/*
+	* Below are the tests for the List<Meeting> getFutureMeetingList(Calendar contact);
+	*/
+		
+	/*
+	* Passing a valid input. Testing that returns all meetings added to the list, since
+	* they all meet the passing criteria of the method.
+	*/
+	@Test
+	public void testGetFutureMeetingListValidinputPart1(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		assertEquals(3,testerContactManager.getFutureMeetingList(testContact).size());	
+	}
 	
+	/*
+	* Passing a valid input. Testing if the first meeting in the list is the one
+	* with the earliest date.
+	*/
+	@Test
+	public void testGetFutureMeetingListValidinputPart2TestingChronoOrder(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		Calendar testDate = new GregorianCalendar(2016, 0, 14, 16, 30);
+		testerContactManager.addFutureMeeting(validContactSet(),testDate);
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		assertEquals(testDate,testerContactManager.getFutureMeetingList(testContact).get(0).getDate());	
+	}
+		
+	/*
+	* Passing a valid input, but this time changing the date of CalendarManager.
+	* Testing that returns only 2 of the 3 meetings added to the list, since
+	* one of them is already in the past.
+	*/
+	@Test
+	public void testGetFutureMeetingListDateInthePast(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2018, 9, 15, 15, 30));
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		assertEquals(2,testerContactManager.getFutureMeetingList(testContact).size());	
+	}
 	
+	/*
+	* Passing an invalid input (a Contact that doesn't exist), testing the IllegalArgumentException.
+	*/
+	@Test
+	public void testGetFutureMeetingListforContactNonExistent(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		Contact testContact = new ContactImpl(25,"Non Existent Contact","Mars");
+		try {
+			testerContactManager.getFutureMeetingList(testContact);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+	}
 	
+	/*
+	* Passing an invalid input (a null Contact), testing the NullPointerException.
+	*/
+	@Test
+	public void testGetFutureMeetingListforNullContact(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		try {
+			testerContactManager.getFutureMeetingList(nullContact);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+	}
 	
 	
 	
