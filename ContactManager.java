@@ -119,6 +119,20 @@ public interface ContactManager {
 	*/
 	List<Meeting> getMeetingListOn(Calendar date);
 	
+	/**
+	* Returns the list of future meetings scheduled for this contact.
+	*
+	* If there are none, the returned list will be empty. Otherwise,
+	* the list will be chrnologically sorted and will not contain any
+	* duplicates.
+	*
+	* @param contact one of the user contacts
+	* @return the list of future meeting(s) scheduled with this contact (maybe empty).
+	* @throws IllegaArgumentException if the contact does not exist.
+	* @throws NullPointerException if the contact is null.
+	*/
+	List<Meeting> getFutureMeetingList(Contact contact);
+	
 
 	//int addFutureMeeting (Set<Contact> contacts, Calendar date);
 	

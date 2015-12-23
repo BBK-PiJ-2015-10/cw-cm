@@ -115,10 +115,11 @@ public class ContactManagerImpl implements ContactManager {
 		return pastmeetinglist.size();
 	}
 	
-	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	/*
-	* This is an NullPointerException method to be leveraged in the getContact method.
+	* Below are 5 testNull methods with slight different signatures. It could have used Lambdas, maybe if time allows.
 	*/
+	
 	public void testNull (String input ){
 	    if ( input == null) {
 			throw new NullPointerException();
@@ -142,6 +143,16 @@ public class ContactManagerImpl implements ContactManager {
 			throw new IllegalArgumentException();
 		}
 	}
+	
+	public void testNull (Contact input ){
+	    if ( input == null) {
+			throw new NullPointerException();
+		}
+	}
+	
+///////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	
 	
 	/*
 	*  This method compares the date being input versus the current date on the CalendarManager.
@@ -362,7 +373,6 @@ public class ContactManagerImpl implements ContactManager {
 		);
 	}
 	
-	
 	/*
 	* Implement method from interface.
 	* testNull(date) will throw a NullPointerException if date is empty
@@ -383,7 +393,49 @@ public class ContactManagerImpl implements ContactManager {
 		return result;
 	}
 	
+	/*
+	* This a method to test if a Contact is in a particular Set of contacts.
+	* This is to be leveraged in the @see (getFutureMeeting(Contact contact)
+	* method.
+	*/
+	public boolean contactInMeeting (Set<Contact> participants, Contact contact){
+		boolean result = false;
+		for (Contact eachcontact : participants){
+			if (eachcontact.getId() == contact.getId()) {
+				result = true;
+			}
+		}
+		return result;
+	}
 	
+	/*
+	* This is the implementation of method from interface.
+	* testNull will throw a NullPointerException if contact is null.
+	* validEvaluator and validContact test if the Contact exists in
+	* current list of contacts. Using these two methods since they are
+	* already being leveraged in other methods in this program. An Illegal-
+	* argumentException will be thrown if the contact is not in the list of Contacts.
+	* Any meetings that have dates occurring before the currentdate of the CalendarManager
+	* are excluded from the list to be returned.
+	* sortMeetingList just sorts the list on chronological order.
+	*/
+	@Override
+	public List<Meeting> getFutureMeetingList(Contact contact){
+		testNull(contact);
+		Set<Contact> tempset = new HashSet<Contact>();
+		tempset.add(contact);
+		validEvaluator(validContact(tempset));
+		List<Meeting> result = new LinkedList<Meeting>();
+		for (int i=0; i< meetinglist.size();i++){
+			if (contactInMeeting(meetinglist.get(i).getContacts(),contact)) {	
+					if (!meetinglist.get(i).getDate().before(currentdate)){
+						result.add(meetinglist.get(i));
+					}
+			}	
+		}
+		sortMeetingList(result);
+		return result;
+	}
 	
 	
 
