@@ -754,6 +754,20 @@ public class TestContactManager {
 	}
 	
 	/*
+	* Passing a valid input, but who doesn't have any meetings scheduled.
+	* Testing that returns a list that is empty.
+	*/
+	@Test
+	public void testGetFutureMeetingListContactWithNoMeetings(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.addMoreContacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		Contact testContact = new ContactImpl(5,"Pete Sampras","United States");
+		assertEquals(true,testerContactManager.getFutureMeetingList(testContact).isEmpty());	
+	}
+	
+	
+	/*
 	* Passing an invalid input (a Contact that doesn't exist), testing the IllegalArgumentException.
 	*/
 	@Test
