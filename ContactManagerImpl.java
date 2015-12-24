@@ -373,6 +373,17 @@ public class ContactManagerImpl implements ContactManager {
 		);
 	}
 	
+	
+	/*
+	* This a chronologically list sorter to be leveraged on getPastMeetingListFor method.
+	*/
+	public void sortPastMeetingList(List<PastMeeting> input){
+		Collections.sort(input, (PastMeeting input1, PastMeeting input2) ->
+			(input1.getDate().compareTo(input2.getDate()))		
+		);
+	}
+	
+	
 	/*
 	* Implement method from interface.
 	* testNull(date) will throw a NullPointerException if date is empty
@@ -395,8 +406,8 @@ public class ContactManagerImpl implements ContactManager {
 	
 	/*
 	* This a method to test if a Contact is in a particular Set of contacts.
-	* This is to be leveraged in the @see (getFutureMeeting(Contact contact)
-	* method.
+	* This is to be leveraged in the @getFutureMeeting(Contact contact)
+	* method as well as the @getPastMeetingListFor(Contact contact) methods.
 	*/
 	public boolean contactInMeeting (Set<Contact> participants, Contact contact){
 		boolean result = false;
@@ -434,6 +445,37 @@ public class ContactManagerImpl implements ContactManager {
 			}	
 		}
 		sortMeetingList(result);
+		return result;
+	}
+	
+	
+	/*
+	* This is the implementation of method from interface.
+	* testNull will throw a NullPointerException if contact is null.
+	* validEvaluator and validContact test if the Contact exists in
+	* current list of contacts. Using these two methods since they are
+	* already being leveraged in other methods in this program. An Illegal-
+	* argumentException will be thrown if the contact is not in the list of Contacts.
+	* Any meetings that have dates occurring after the currentdate of the CalendarManager
+	* are excluded from the list to be returned.
+	* sortMeetingList just sorts the list on chronological order.
+	*
+	*/
+	@Override
+	public List<PastMeeting> getPastMeetingListFor(Contact contact){
+		testNull(contact);
+		Set<Contact> tempset = new HashSet<Contact>();
+		tempset.add(contact);
+		validEvaluator(validContact(tempset));
+		List<PastMeeting> result = new LinkedList<PastMeeting>();
+		for (int i=0; i< pastmeetinglist.size();i++){
+			if (contactInMeeting(pastmeetinglist.get(i).getContacts(),contact)) {	
+					if (pastmeetinglist.get(i).getDate().before(currentdate)){
+						result.add(pastmeetinglist.get(i));
+					}
+			}	
+		}
+		sortPastMeetingList(result);
 		return result;
 	}
 	

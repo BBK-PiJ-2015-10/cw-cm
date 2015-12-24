@@ -133,6 +133,8 @@ public interface ContactManager {
 	*/
 	List<Meeting> getFutureMeetingList(Contact contact);
 	
+	List<PastMeeting> getPastMeetingListFor(Contact contact);
+	
 
 	//int addFutureMeeting (Set<Contact> contacts, Calendar date);
 	
