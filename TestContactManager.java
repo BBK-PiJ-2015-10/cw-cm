@@ -133,9 +133,7 @@ public class TestContactManager {
 	/*
 	* This is a auxiliary method leverated on the different tests for getPastMeetingListFor (Contact contact)
 	*
-	*/
-
-	
+	*/	
 	public static void add2PastMeetings (ContactManager input){
 		TestContactManager.addcontacts(input);
 		TestContactManager.addMoreContacts(input);
@@ -148,6 +146,7 @@ public class TestContactManager {
 	@Before
 	public void setup(){
 		testerContactManager = new ContactManagerImpl();
+		((ContactManagerImpl)testerContactManager).cleanUp();
 		((ContactManagerImpl)testerContactManager).setCurrentDate(currentdate);
 	}
 	
@@ -814,7 +813,7 @@ public class TestContactManager {
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*
+    /*
 	* Below are the tests for the List<PastMeeting> getPastMeetingListFor(Calendar contact);
 	*/
 		
@@ -883,6 +882,106 @@ public class TestContactManager {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////  
   
+    /*
+	* Below are all the tests for the flush method. I am creating a ContactManager instance, 
+	* adding 8 contact, 3 meetings, making two of them in past, 
+	*/
 	
+	/*
+	* Testing that the new instance has a PastMeeting list equal to 2 meetings,
+	* based on the prior ContactManager flush.
+	*/
+	@Test
+	public void testFlushPartITestPastMeetingsList(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		testerContactManager.flush();
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		ContactManager test = new ContactManagerImpl();
+		assertEquals(2,test.getPastMeetingListFor(testContact).size());
+	}
+	
+	/*
+	* Testing that the new instance has a FutureMeeting list equal to 1 meeting,
+	* based on the prior ContactManager flush.
+	*/
+	@Test
+	public void testFlushPartIITestFutureMeetingsList(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		testerContactManager.flush();
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		ContactManager test = new ContactManagerImpl();
+		assertEquals(1,test.getFutureMeetingList(testContact).size());
+	}
+	
+	/*
+	* Testing that the new instance has a Meeting list equal to 3 meetings based on
+	* the prior ContactManager flush.
+	*/
+	@Test
+	public void testFlushPartIIITestMeetingsList(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		testerContactManager.flush();
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		ContactManager test = new ContactManagerImpl();
+		assertEquals(3,((ContactManagerImpl)testerContactManager).getSizeofMeetingList());
+	}
+	
+	/*
+	* Testing that the new instance has a Contact List of 8 based on the prior ContactManager flush.
+	*/
+	@Test
+	public void testFlushPartIVTestContactList(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		testerContactManager.flush();
+		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
+		ContactManager test = new ContactManagerImpl();
+		assertEquals(8,((ContactManagerImpl)testerContactManager).getsizeofcontactlist());
+	}
+	
+	/*
+	* Testing that the future Meeting saved and retrived, matches the ID originally assigned.
+	*/
+	@Test
+	public void testFlushPartVTestFutureMeetingListID(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		testerContactManager.flush();
+		assertEquals(3,(testerContactManager.getMeetingListOn(new GregorianCalendar(2020, 2, 14, 15, 30)).get(0).getId()));
+	}
+	
+	/*
+	* Testing that the future Meeting saved and retrived, matches the Participants list size originally assigned.
+	*/
+	@Test
+	public void testFlushPartVITestFutureMeetingListContacts(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		testerContactManager.flush();
+		assertEquals(4,(testerContactManager.getMeetingListOn(new GregorianCalendar(2020, 2, 14, 15, 30)).get(0).getContacts().size()));
+	}
+	
+	/*
+	* Testing that if a new contact is added, the contactidcount will return a 9.
+	*/
+	@Test
+	public void testFlushPartVIITestContactIdCount(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		testerContactManager.flush();
+		assertEquals(9,(testerContactManager.addNewContact("Juan Martin Potro","Argentina")));
+	}
+	
+	
+	/*
+	* Testing that if a new meeting is added to the list, it will return a value of 4,
+	* since 3 meetings were added in the previous session of the ContactManager.
+	*/
+	@Test
+	public void testFlushPartVIIITestMeetingIdCount(){
+		TestContactManager.add2PastMeetings(testerContactManager);
+		testerContactManager.flush();
+		assertEquals(4,(testerContactManager.addFutureMeeting(validContactSmallerSet(),new GregorianCalendar(2020, 5, 14, 15, 30))));
+	}
+	
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 }
