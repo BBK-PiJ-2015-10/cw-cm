@@ -1,11 +1,19 @@
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
-//import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.HashSet;
 import java.util.Comparator;
 import java.util.Collections;
+import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.File;
 
 /*
 *  This is the implementation of ContactManager using LinkedList.
@@ -42,16 +50,24 @@ public class ContactManagerImpl implements ContactManager {
 	
 	private List<PastMeeting> pastmeetinglist;
 	
+	private File file = new File("ContactManager.ser");
+	
 	private List<Integer> pastmeetingidlist;
 	
 	/*
-	* Contructor method it initializes the list.
+	* Contructor method.
+	* It reads prior instances of the ContactManager if they exist, if not
+	* it inizilizes the list data structures.
 	*/
 	public ContactManagerImpl (){
-		this.contactlist = new LinkedList<Contact>();
-		this.meetinglist = new LinkedList<FutureMeeting>();
-		this.pastmeetinglist = new LinkedList<PastMeeting>();
-		this.pastmeetingidlist = new LinkedList<Integer>();
+		if (file.exists()){
+			capture();
+		}
+		else {
+			this.contactlist = new LinkedList<Contact>();
+			this.meetinglist = new LinkedList<FutureMeeting>();
+			this.pastmeetinglist = new LinkedList<PastMeeting>();
+		}
 	}
 	
 	/*
@@ -60,6 +76,12 @@ public class ContactManagerImpl implements ContactManager {
 	public void setCurrentDate(Calendar currentdate){
 		this.currentdate = currentdate;
 	}
+	
+	// This is to be deleted.
+	public Calendar getCurrentDate(){
+		return this.currentdate;
+	}
+	
 	
 	
 	/*
@@ -478,6 +500,60 @@ public class ContactManagerImpl implements ContactManager {
 		sortPastMeetingList(result);
 		return result;
 	}
+	
+	/*
+	* Implemenation of interface based on specifications.
+	* Leverages APIs: ObjectOutputStream, BufferedOutputStream (for performance), and FileOutputStream.
+	* Encapsulated in try and catch statements in case an IOException occurs.
+	*/
+	@Override
+	public void flush (){
+		try (ObjectOutputStream encode = new ObjectOutputStream ( new BufferedOutputStream (new FileOutputStream ("ContactManager.ser")));)
+		{
+			encode.writeObject(contactlist);
+			encode.writeObject(contactidcount);
+			encode.writeObject(meetinglist);
+			encode.writeObject(meetingidcount);
+			encode.writeObject(pastmeetinglist);
+			encode.writeObject(currentdate);
+		}
+		catch (IOException ex){
+			System.err.println(ex);
+		}
+	}
+	
+	/*
+	* This method ensures that any new instances from ContactManager reads any saved data structures from prior instances
+	* of ContactManager.
+	* Leverages APIs: ObjectInputStream, BufferedInputStream (for performance), and FileInputStream.
+	* Encapsulated in try and catch statements in case an IOException occurs.
+	*/
+	public void capture (){
+		try (ObjectInputStream d = new ObjectInputStream( new BufferedInputStream( new FileInputStream("ContactManager.ser")));) {
+            contactlist = (List<Contact>) d.readObject();
+			contactidcount = (Integer) d.readObject();
+			meetinglist = (List<FutureMeeting>) d.readObject();
+			meetingidcount = (Integer) d.readObject();
+			pastmeetinglist = (List<PastMeeting>) d.readObject();
+			currentdate = (Calendar) d.readObject();
+			
+        } catch (IOException | ClassNotFoundException ex) {
+            System.err.println("On write error " + ex);
+        }
+	}
+	
+	/*
+	* This method is to be used for UnitTesting purposes. It ensures that a new Instance of ContactManager starts with
+	* a clean list of meetings, contacts, and counters.
+	*/
+	public void cleanUp(){
+		this.contactidcount = 0;
+		this.meetingidcount = 0;
+		this.contactlist = new LinkedList<Contact>();
+		this.meetinglist = new LinkedList<FutureMeeting>();
+		this.pastmeetinglist = new LinkedList<PastMeeting>();		
+	}
+	
 	
 	
 

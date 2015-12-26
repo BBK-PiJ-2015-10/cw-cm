@@ -2,6 +2,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+
+
 /**
 * A class to manage your contacts and meetings.
 *
@@ -133,8 +135,27 @@ public interface ContactManager {
 	*/
 	List<Meeting> getFutureMeetingList(Contact contact);
 	
+	/**
+	* Returns the list of past meetings in which this contact has participated.
+	* 
+	* If there are none, the returned list will be empty. Otherwise,
+	* the list will be chrnologically sorted and will not contain any
+	* duplicates.
+	*
+	* @param contact one of the users contacts
+	* @return the list of past meeting(s) scheduled with this contact (maybe empty).
+	* @throws IllegaArgumentException if the contact does not exist.
+	* @throws NullPointerException if the contact is null.
+	*/
 	List<PastMeeting> getPastMeetingListFor(Contact contact);
 	
+	/**
+	* Save all data to disk.
+	*
+	* This method must be executed when the program is 
+	* closed and when/if the user requests it.
+	*/
+	void flush ();
 
 	//int addFutureMeeting (Set<Contact> contacts, Calendar date);
 	
