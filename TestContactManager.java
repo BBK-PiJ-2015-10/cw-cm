@@ -913,18 +913,6 @@ public class TestContactManager {
 		assertEquals(1,test.getFutureMeetingList(testContact).size());
 	}
 	
-	/*
-	* Testing that the new instance has a Meeting list equal to 3 meetings based on
-	* the prior ContactManager flush.
-	*/
-	@Test
-	public void testFlushPartIIITestMeetingsList(){
-		TestContactManager.add2PastMeetings(testerContactManager);
-		testerContactManager.flush();
-		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
-		ContactManager test = new ContactManagerImpl();
-		assertEquals(3,((ContactManagerImpl)testerContactManager).getSizeofMeetingList());
-	}
 	
 	/*
 	* Testing that the new instance has a Contact List of 8 based on the prior ContactManager flush.
@@ -982,6 +970,108 @@ public class TestContactManager {
 	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   /*
+   * Below are the tests for the void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text)
+   */
+     
+   /*
+   * Passing valid inputs, testing the size of the list of PastMeetings before and after the execution.  
+   */
+   @Test
+   public void testaddNewPastMeetingValidInput(){
+	   TestContactManager.addcontacts(testerContactManager);
+	   int sizebefore = ((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList();
+	   testerContactManager.addNewPastMeeting(validContactSet(),pastdate,"This was the first past meeting");
+	   assertEquals(sizebefore+1,((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList());
+   }
+    
+   /*
+   * Passing a null note, testing that a NullPointerException is thrown.
+   */
+   @Test
+   public void testaddNewPastMeetingInValidInputNullNotes(){
+	   TestContactManager.addcontacts(testerContactManager);
+	   try {
+		   testerContactManager.addNewPastMeeting(validContactSet(),pastdate,nullstring);
+	   }
+	   catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+   }
+   
+   /*
+   * Passing an empty note, testing that a NullPointerException is thrown.
+   */
+   @Test
+   public void testaddNewPastMeetingInValidInputEmptyNotes(){
+	   TestContactManager.addcontacts(testerContactManager);
+	   try {
+		   testerContactManager.addNewPastMeeting(validContactSet(),pastdate,emptystring);
+	   }
+	   catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+   }
+   
+   /*
+   * Passing an empty date, testing that a NullPointerException is thrown.
+   */
+   @Test
+   public void testaddNewPastMeetingInValidInputNullDate(){
+	   TestContactManager.addcontacts(testerContactManager);
+	   try {
+		   testerContactManager.addNewPastMeeting(validContactSet(),emptydate,"This meeting has an empty date");
+	   }
+	   catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+   }
+   
+   /*
+   * Passing a null list of meeting participants, testing that a NullPointerException is thrown.
+   */
+   @Test
+   public void testaddNewPastMeetingInValidInputNullParticipants(){
+	   TestContactManager.addcontacts(testerContactManager);
+	   try {
+		   testerContactManager.addNewPastMeeting(nullContactSet,pastdate,"This meeting has an empty date");
+	   }
+	   catch (Exception ex){
+			assertEquals("java.lang.NullPointerException",ex.toString());
+		}
+   }
+   
+   /*
+   * Passing an invalid list of meeting participants, testing that an IllegalArgumentException is thrown.
+   */
+   @Test
+   public void testaddNewPastMeetingInValidInputInvalidParticipants(){
+	   TestContactManager.addcontacts(testerContactManager);
+	   try {
+		   testerContactManager.addNewPastMeeting(invalidContactSet(),pastdate,"This meeting has an empty date");
+	   }
+	   catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+   }
+   
+   /*
+   * Passing a date in the future, testing that an IllegalStateException is thrown.
+   */
+   @Test
+   public void testaddNewPastMeetingInValidInputDateInFuture(){
+	   TestContactManager.addcontacts(testerContactManager);
+	   try {
+		   testerContactManager.addNewPastMeeting(validContactSet(),futuredate,"This meeting has an empty date");
+	   }
+	   catch (Exception ex){
+			assertEquals("java.lang.IllegalStateException",ex.toString());
+		}
+   }
+   
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+   
 
 	
 }
