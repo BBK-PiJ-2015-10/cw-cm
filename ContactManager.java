@@ -156,6 +156,9 @@ public interface ContactManager {
 	* closed and when/if the user requests it.
 	*/
 	void flush ();
+	
+	void addNewPastMeeting (Set<Contact> contacts, Calendar date, String text);
+	
 
 	//int addFutureMeeting (Set<Contact> contacts, Calendar date);
 	
