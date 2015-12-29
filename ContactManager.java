@@ -47,9 +47,9 @@ public interface ContactManager {
 	* IDs does not correspond to real contact.
 	*
 	*/
-	Set<Contact> getContacts(int id);
+	//Set<Contact> getContacts(int id);
 	
-	Set<Contact> getContacts(List<Integer> ids);
+	//Set<Contact> getContacts(List<Integer> ids);
 	
 	Set<Contact> getContacts(int... ids);
 	

@@ -278,9 +278,9 @@ public class TestContactManager {
 		assertEquals(4,testerContactManager.getContacts("Al").size());
 	}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	/*
-	*  Below are the tests related to the Set<Contact> getContact(int id);
+	*  Below are the tests related to the Set<Contact> getContacts(int... ids);
 	*/
 	
 	/* Passing a valid contact ID, testing if the return Set is not empty.	
@@ -291,18 +291,39 @@ public class TestContactManager {
 		assertEquals(false,testerContactManager.getContacts(1).isEmpty());
 	}
 	
+	@Test
+	public void testGetContactViaIDsTestSeveralValidIDprovided(){
+		TestContactManager.addcontacts(testerContactManager);
+		assertEquals(2,testerContactManager.getContacts(1,4).size());
+	}
+	
+	
 	/* Passing a contact ID not in the list, testing that an IllegalArgumentException is thrown.	
 	*/
 	@Test
 	public void testGetContactViaIDsTestSingleInvalidIDprovided(){
 		TestContactManager.addcontacts(testerContactManager);
 		try {
-			testerContactManager.getContacts(4);
+			testerContactManager.getContacts(7);
 		}
 		catch (Exception ex){
 			assertEquals("java.lang.IllegalArgumentException",ex.toString());
 		}
 	}
+	
+	/* Passing two contacts, one of them witn an ID not in the list, testing that an IllegalArgumentException is thrown.	
+	*/
+	@Test
+	public void testGetContactViaIDsTestVariousInvalidIDprovided(){
+		TestContactManager.addcontacts(testerContactManager);
+		try {
+			testerContactManager.getContacts(1,7);
+		}
+		catch (Exception ex){
+			assertEquals("java.lang.IllegalArgumentException",ex.toString());
+		}
+	}
+	
 	
 	/* Passing an empty contact ID, testing that an IllegalArgumentException is thrown.	
 	*/
@@ -316,11 +337,13 @@ public class TestContactManager {
 			assertEquals("java.lang.IllegalArgumentException",ex.toString());
 		}
 	}
+		
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/*
 	*  Below are the tests related to the Set<Contact> getContact(List<Integer> ids);
 	*/
+	/*
 	@Test
 	public void testGetContactViaIDsTestMultipleValidIDprovided(){
 		List<Integer> testerList = new LinkedList<Integer>();
@@ -344,6 +367,7 @@ public class TestContactManager {
 			assertEquals("java.lang.IllegalArgumentException",ex.toString());
 		}	
 	}
+	*/
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	/*
@@ -1072,6 +1096,5 @@ public class TestContactManager {
    
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
    
-
 	
 }
