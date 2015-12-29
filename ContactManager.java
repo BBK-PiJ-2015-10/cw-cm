@@ -47,10 +47,6 @@ public interface ContactManager {
 	* IDs does not correspond to real contact.
 	*
 	*/
-	//Set<Contact> getContacts(int id);
-	
-	//Set<Contact> getContacts(List<Integer> ids);
-	
 	Set<Contact> getContacts(int... ids);
 	
 	
@@ -157,34 +153,17 @@ public interface ContactManager {
 	*/
 	void flush ();
 	
+	/**
+	* Create a new record for a meeting that took place in the past.
+	*
+	* @param contacts a list of the participants.
+	* @param date the date on which the meeting took place.
+	* @param text messages to be added about the meeting.
+	* @throws IllegaArgumentException if the list of contacts is empty, or
+	* any of the contacts does not exist.
+	* @throws NullPointerException if any of the arguments are null.
+	*/
 	void addNewPastMeeting (Set<Contact> contacts, Calendar date, String text);
-	
-
-	//int addFutureMeeting (Set<Contact> contacts, Calendar date);
-	
-	//PastMeeting getPastMeeting(int id);
-	
-	//FutureMeeting getFutureMeeting(int id);
-	
-	//Meeting getMeeting(int id);
-	
-	//List<Meeting> getFutureMeetingList(Contact contact);
-	
-	//List<Meeting> getFutureMeetingList(Calendar date);
-	
-	//List<Meeting> getPastMeetingList(Contact contact);
-	
-	//void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text);
-	
-	//void addMeetingNotes(int id, String txt);
-	
-	//void addNewContact (String name, String notes);
-	
-	//Set<Contact> getContacts (int ids);
-	
-	//Set<Contact> getContacts(String name);
-	
-	//void flush();
-		
+			
 	
 }
