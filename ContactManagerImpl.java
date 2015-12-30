@@ -46,16 +46,20 @@ public class ContactManagerImpl implements ContactManager {
 	private List<Contact> contactlist;
 		
 	/**
-	* This field has the list of all Contacts added to the ContactManager.
+	* This field has the list of FutureMeetings currently in the ContactManager.
 	*/
 	private List<FutureMeeting> meetinglist;
 	
+	/**
+	* This field has the list of PastMeeting currently in the ContactManager.
+	*/
 	private List<PastMeeting> pastmeetinglist;
 	
+	/**
+	* This field has the name of the file that saves all data entered into the ContactManager.
+	*/
 	private File file = new File("ContactManager.ser");
-	
-	private List<Integer> pastmeetingidlist;
-	
+		
 	/**
 	* Contructor method.
 	* It reads prior instances of the ContactManager if they exist, if not
@@ -79,12 +83,12 @@ public class ContactManagerImpl implements ContactManager {
 		this.currentdate = currentdate;
 	}
 	
-	// This is to be deleted.
+	/**
+	* This method returns the current time in the CalendarManager.
+	*/
 	public Calendar getCurrentDate(){
 		return this.currentdate;
 	}
-	
-	
 	
 	/**
 	* Implementation of method from interface, it leverages the contactidcount to generate unique IDs.
@@ -130,17 +134,25 @@ public class ContactManagerImpl implements ContactManager {
 		return contactlist.size();
 	}
 	
+	/**
+	* This method returns the size of the FutureMeetings in the ContactManager.
+	* It was built mainly to facilicate the Test methods in the TestContactManager class
+.	*/
 	public int getSizeofMeetingList(){
 		return meetinglist.size();
 	}
 	
+	/**
+	* This method returns the size of the PastMeetings in the ContactManager.
+	* It was built mainly to facilicate the Test methods in the TestContactManager class
+.	*/
 	public int getSizeofPastMeetingList(){
 		return pastmeetinglist.size();
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	/**
-	* Below are 5 testNull methods with slight different signatures. It could have used Lambdas, maybe if time allows.
+	* Below are 5 testNull methods with slight different signatures. 
 	*/
 	
 	public void testNull (String input ){
@@ -291,7 +303,10 @@ public class ContactManagerImpl implements ContactManager {
 		return meetingidcount;
 	}
 	
-	//This is for testing only
+	/**
+	* This method returns the List of Contacts in ContactManager. It was built with the objective
+	* of facilitating the testing of ContactManager in the TestContactManager class.
+	*/
 	public List<Contact> getContactList(){
 		return contactlist;
 	}
@@ -339,6 +354,14 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	
+	/**
+	* Implementation of method based on interface specifications.
+	* testDateInPast will throw an IllegalStateException if the date is in the future.
+	* testNull will throw a NullPointerException if any of the arguments are null.
+	* validEvaluator and validContact will throw an IllegalArgumentException if the
+    * list of contacts being passed is empty or contains a contact that doesn't exist.	
+	*/
+	@Override
 	public void addNewPastMeeting (Set<Contact> contacts, Calendar date, String text){
 		testDateInPast(date);
 		testNull(date);
@@ -386,13 +409,7 @@ public class ContactManagerImpl implements ContactManager {
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
-	
-	
+		
 	/**
 	* Implementation of method from interface.
 	* If no id is found it returns null, otherwise it returns the Meeting requested. 
