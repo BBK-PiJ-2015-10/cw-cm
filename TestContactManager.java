@@ -33,9 +33,8 @@ public class TestContactManager {
 	private Contact nullContact = null;
 	
 	
-	/*
+	/**
 	* This method adds a list of Contacts to the ContactManager instance. 
-	* This is to be used on several tests.
 	*/
 	public static void addcontacts(ContactManager input){
 		input.addNewContact("John Mcenroe","United States");
@@ -44,9 +43,8 @@ public class TestContactManager {
 		input.addNewContact("Novak Djokovic","Serbia");
 	}
 	
-	/*
+	/**
 	* This method adds an additional list of Contacts to the ContactManager instance. 
-	* This is to be used on several tests.
 	*/
 	public static void addMoreContacts(ContactManager input){
 		input.addNewContact("Pete Sampras","United States");
@@ -55,10 +53,8 @@ public class TestContactManager {
 		input.addNewContact("Yannick Noah","France");
 	}
 	
-	/*
+	/**
 	* This method returns an a set of Contacts that is in the list of Contacts. 
-	* This is to be used on several tests for the method:
-    *    - addFutureMeeting(Set<Contact> contacts, Calendar date)
 	*/
 	public static Set<Contact> validContactSet(){
 		Set<Contact> ValidContactSetResult = new HashSet<Contact>();
@@ -69,10 +65,8 @@ public class TestContactManager {
 		return ValidContactSetResult;
 	}
 	
-	/*
+	/**
 	* This method returns an a set of Contacts that is in the list of Contacts. 
-	* This is to be used on several tests for the method:
-    *    //- addFutureMeeting(Set<Contact> contacts, Calendar date)
 	*/
 	public static Set<Contact> validContactSmallerSet(){
 		Set<Contact> ValidContactSetResult = new HashSet<Contact>();
@@ -81,10 +75,8 @@ public class TestContactManager {
 		return ValidContactSetResult;
 	}
 			
-	/*
-	* This method returns an a set of Contacts that are not in the list of Contacts. 
-	* This is to be used on several tests for the method:
-    *    - addFutureMeeting(Set<Contact> contacts, Calendar date)
+	/**
+	* This auxiliary method returns an a set of Contacts that are not in the list of Contacts. 
 	*/
 	public static Set<Contact> invalidContactSet(){
 		Set<Contact> InValidContactSetResult = new HashSet<Contact>();
@@ -93,10 +85,8 @@ public class TestContactManager {
 		return InValidContactSetResult;
 	}
 	
-	/*
-	* This method adds a couple of valid Future meetings to a ContactManager input. 
-	* This is to be used on several tests for the method:
-    *    - FutureMeeting getFutureMeeting(int id);
+	/**
+	* This auxiliary method adds 3 Future meetings to a ContactManager input. 
 	*/
 	public static void add3futuremeetings (ContactManager input){
 		input.addFutureMeeting(validContactSet(),new GregorianCalendar(2018, 9, 14, 15, 30));
@@ -104,10 +94,8 @@ public class TestContactManager {
 		input.addFutureMeeting(validContactSet(),new GregorianCalendar(2020, 2, 14, 15, 30));
 	}
 	
-	/*
-	* This method adds a couple of valid Future meetings to a ContactManager input. 
-	* This is to be used on several tests for the method:
-    *    - FutureMeeting getFutureMeeting(int id);
+	/**
+	* This is an auxiliary method adds a couple of valid Future meetings to a ContactManager input. 
 	*/
 	public static void add4FutureMeetings3onSameDate (ContactManager input){
 		TestContactManager.addcontacts(input);
@@ -130,9 +118,8 @@ public class TestContactManager {
 		input.addFutureMeeting(meeting4Set,new GregorianCalendar(2016, 0, 22, 10, 00));
 	}
 	
-	/*
-	* This is a auxiliary method leverated on the different tests for getPastMeetingListFor (Contact contact)
-	*
+	/**
+	* This is a auxiliary method that adds two PastMeetings.
 	*/	
 	public static void add2PastMeetings (ContactManager input){
 		TestContactManager.addcontacts(input);
@@ -151,19 +138,21 @@ public class TestContactManager {
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	/*
+	
+	/**
 	*  Below are the tests related to the AddNewContact(String name, String notes) method.
 	*/
 	
-	
-	/* Passing a valid set of arguments, testing that a meeting ID is generated.	
+	/**
+   	* Passing a valid set of arguments, testing that a meeting ID is generated.	
 	*/
 	@Test
 	public void testAddNewContacttestIDgeneration(){		  
 		assertEquals(1,testerContactManager.addNewContact("John Mcenroe","United States"));
 	}
 	
-	/* Passing a valid set of arguments, testing that a meeting IDs are generated and that
+	/**
+    * Passing a valid set of arguments, testing that a meeting IDs are generated and that
 	* the second ID # is the next integer of the first ID number.	
 	*/
 	@Test
@@ -172,7 +161,8 @@ public class TestContactManager {
 		assertEquals(2,testerContactManager.addNewContact("Rafael Nadal","Spain"));
 	}
 	
-	/* Passing an empty String on name and notes, testing that a NullPointerException.
+	/** 
+	* Passing an empty String on name and notes, testing that a NullPointerException.
 	* is thrown.	
 	*/
 	@Test
@@ -186,7 +176,8 @@ public class TestContactManager {
 		}
 	}
 	
-	/* Passing an null String on name and notes, testing that a NullPointerException.
+	/**
+    * Passing an null String on name and notes, testing that a NullPointerException.
 	* is thrown.	
 	*/
 	@Test
@@ -200,7 +191,8 @@ public class TestContactManager {
 		}
 	}
 	
-	/* Passing an empty String on name and notes, testing that nothing got added to the meeting list.
+	/**
+    * Passing an empty String on name and notes, testing that nothing got added to the meeting list.
 	* is thrown.	
 	*/
 	@Test
@@ -215,8 +207,8 @@ public class TestContactManager {
 		assertEquals(4,(((ContactManagerImpl)testerContactManager).getsizeofcontactlist()));
 	}
 
-
-	/* Passing a null String on name and notes, testing that nothing got added to the meeting list.
+	/**
+    * Passing a null String on name and notes, testing that nothing got added to the meeting list.
 	* is thrown.	
 	*/
 	@Test
@@ -232,12 +224,13 @@ public class TestContactManager {
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	/*
+	
+	/**
 	*  Below are the tests related to the Set<Contact> getContact(String name);
 	*/
 	
-	
-	/* Passing a null String, testing that a NullPointerException is thrown.	
+	/**
+    * Passing a null String, testing that a NullPointerException is thrown.	
 	*/
 	@Test
 	public void testGetContactsTestNullStringThrowsException(){
@@ -250,7 +243,8 @@ public class TestContactManager {
 		}
 	}
 	
-	/* Passing a empty String, testing that the full list of Contacts is returned.	
+	/**
+    * Passing a empty String, testing that the full list of Contacts is returned.	
 	*/
 	@Test
 	public void testGetContactsTestEmptyStringReturn(){
@@ -258,7 +252,8 @@ public class TestContactManager {
 		assertEquals(4,testerContactManager.getContacts(emptystring).size());
 	}
 	
-	/* Passing a Contact name not in the list, testing that the return Set is size 0.	
+	/**
+    * Passing a Contact name not in the list, testing that the return Set is size 0.	
 	*/
 	@Test
 	public void testGetContactsTestStringReturnWithNameNotInList(){
@@ -266,7 +261,8 @@ public class TestContactManager {
 		assertEquals(0,testerContactManager.getContacts("Serena Williams").size());
 	}
 	
-	/* Passing a String that is included in all the contact names in the list, 
+	/**
+    * Passing a String that is included in all the contact names in the list, 
 	* testing that the return Set is the size of the list added.	
 	*/
 	@Test
@@ -279,11 +275,13 @@ public class TestContactManager {
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	/*
+	
+	/**
 	*  Below are the tests related to the Set<Contact> getContacts(int... ids);
 	*/
 	
-	/* Passing a valid contact ID, testing if the return Set is not empty.	
+	/** 
+	* Passing a valid contact ID, testing if the return Set is not empty.	
 	*/
 	@Test
 	public void testGetContactViaIDsTestSingleValidIDprovided(){
@@ -291,14 +289,17 @@ public class TestContactManager {
 		assertEquals(false,testerContactManager.getContacts(1).isEmpty());
 	}
 	
+	/** 
+	* Passing two valids contact IDs, testing if the return Set is equal to 2.	
+	*/
 	@Test
 	public void testGetContactViaIDsTestSeveralValidIDprovided(){
 		TestContactManager.addcontacts(testerContactManager);
 		assertEquals(2,testerContactManager.getContacts(1,4).size());
 	}
 	
-	
-	/* Passing a contact ID not in the list, testing that an IllegalArgumentException is thrown.	
+	/**
+	* Passing a contact ID not in the list, testing that an IllegalArgumentException is thrown.	
 	*/
 	@Test
 	public void testGetContactViaIDsTestSingleInvalidIDprovided(){
@@ -311,7 +312,8 @@ public class TestContactManager {
 		}
 	}
 	
-	/* Passing two contacts, one of them witn an ID not in the list, testing that an IllegalArgumentException is thrown.	
+	/**
+	* Passing two contacts, one of them witn an ID not in the list, testing that an IllegalArgumentException is thrown.	
 	*/
 	@Test
 	public void testGetContactViaIDsTestVariousInvalidIDprovided(){
@@ -324,8 +326,8 @@ public class TestContactManager {
 		}
 	}
 	
-	
-	/* Passing an empty contact ID, testing that an IllegalArgumentException is thrown.	
+	/**
+	* Passing an empty contact ID, testing that an IllegalArgumentException is thrown.	
 	*/
 	@Test
 	public void testGetContactViaIDsTestSingleEmptyIDprovided(){
@@ -340,11 +342,13 @@ public class TestContactManager {
 		
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	/*
+	
+	/**
 	* Below are the tests for the int addFutureMeeting(Set<Contact> contacts, Calendar date);
 	*/
 	
-	/* This test needs to return 1 since it is the first meeting being set up and all arguments are valid.	
+	/** 
+	* This test needs to return 1 since it is the first meeting being set up and all arguments are valid.	
 	*/
 	@Test
 	public void testAddFutureMeetingValidInputs(){
@@ -352,7 +356,8 @@ public class TestContactManager {
 		assertEquals(1,testerContactManager.addFutureMeeting(TestContactManager.validContactSet(),futuredate));
 	}
 	
-	/* This test needs to return 2 since we are setting up two meetings and all arguments are valid.	
+	/**
+	* This test needs to return 2 since we are setting up two meetings and all arguments are valid.	
 	*/
 	@Test
 	public void testAddFutureMeetingValidInputsforTwoMeetings(){
@@ -361,7 +366,8 @@ public class TestContactManager {
 		assertEquals(2,testerContactManager.addFutureMeeting(TestContactManager.validContactSet(),furtherfuturedate));
 	}
 	
-	/* This test needs to throw and catch an exception since we are passing a date in the past.	
+	/**
+    * This test needs to throw and catch an exception since we are passing a date in the past.	
 	*/
 	@Test
 	public void testAddFutureMeetingInvalidDate(){
@@ -373,7 +379,8 @@ public class TestContactManager {
 		}
 	}
 	
-	/* This test needs to throw and catch an exception since we are passing an emptydate.	
+	/** 
+	* This test needs to throw and catch an exception since we are passing an emptydate.	
 	*/
 	@Test
 	public void testAddFutureMeetingNullDate(){
@@ -385,7 +392,8 @@ public class TestContactManager {
 		}
 	}
 	
-	/* This test needs to throw and catch an exception since we are passing a Null Contactset.	
+	/**
+    * This test needs to throw and catch an exception since we are passing a Null Contactset.	
 	*/
 	@Test
 	public void testAddFutureMeetingNullContacts(){
@@ -397,7 +405,8 @@ public class TestContactManager {
 		}
 	}
 	
-	/* This test needs to throw and catch an exception since we are passing a set of Contacts not in the list.	
+	/**
+    * This test needs to throw and catch an exception since we are passing a set of Contacts not in the list.	
 	*/
 	@Test
 	public void testAddFutureMeetingInvalidContacts(){
@@ -411,6 +420,7 @@ public class TestContactManager {
 	}	
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 	/**
 	* Below are the tests for the int FutureMeeting getFutureMeeting(int id);
 	*/
@@ -799,11 +809,11 @@ public class TestContactManager {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
-	/*
+	/**
 	* Below are the tests for the List<Meeting> getMeetingListOn(Calendar date);
 	*/
 
-	/* Passing a validinput (testing that the output list contains the proper meetings).
+	/** Passing a validinput (testing that the output list contains the proper meetings).
 	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
 	* on a different date. Testing that the List being return from this method based on
 	* the date of meetings (1,3,4) will be size 3 and will include those 3 meetings an
@@ -816,6 +826,11 @@ public class TestContactManager {
 		assertEquals(3,testresult.size());	
 	}
 	
+	/** Passing a validinput (testing that the output list contains the proper meetings).
+	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* on a different date. Testing that the List being return from this method based on
+	* the date of meetings (1,3,4) will not include meeting # 2.
+	*/
 	@Test
 	public void testGetMeetingListOnValidinputPart2(){
 		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
@@ -823,6 +838,13 @@ public class TestContactManager {
 		assertEquals(false,testresult.contains(testerContactManager.getMeeting(2)));	
 	}
 	
+	
+	/** Passing a validinput (testing that the output list contains the proper meetings).
+	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* on a different date. Testing that the List being return from this method based on
+	* the date of meetings (1,3,4) testing that the first element in the returned list
+	* is the one with the oldest date (chronologically ordered).
+	*/
 	@Test
 	public void testGetMeetingListOnValidinputPart3(){
 		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
@@ -830,6 +852,12 @@ public class TestContactManager {
 		assertEquals(4,testresult.get(0).getId());	
 	}
 	
+	/** Passing a validinput (testing that the output list contains the proper meetings).
+	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* on a different date. Testing that the List being return from this method based on
+	* the date of meetings (1,3,4) testing that the second element in the returned list
+	* is the second one with the oldest date (chronologically ordered).
+	*/
 	@Test
 	public void testGetMeetingListOnValidinputPart4(){
 		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
@@ -837,6 +865,12 @@ public class TestContactManager {
 		assertEquals(1,testresult.get(1).getId());	
 	}
 	
+	/** Passing a validinput (testing that the output list contains the proper meetings).
+	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* on a different date. Testing that the List being return from this method based on
+	* the date of meetings (1,3,4) testing that the third and last element in the returned list
+	* is the third and last one with the most recent date (chronologically ordered).
+	*/
 	@Test
 	public void testGetMeetingListOnValidinputPart5(){
 		TestContactManager.add4FutureMeetings3onSameDate(testerContactManager);
@@ -845,7 +879,8 @@ public class TestContactManager {
 	}
 	
 	
-	/* Passing an Invalidinput (testing that a NullPointerException is thrown).
+	/**
+	* Passing an Invalidinput (testing that a NullPointerException is thrown).
 	*/
 	@Test
 	public void testGetMeetingListOnInValidinputPart1(){
@@ -858,8 +893,8 @@ public class TestContactManager {
 		}
 	}
 	
-	
-	/* Passing a valid input, but no meeting on that date (testing that a null list is returned).
+	/**
+    * Passing a valid input, but no meeting on that date (testing that an empty list is returned).
 	*/
 	@Test
 	public void testGetMeetingListOnValidinputNoMeetingonDate(){
@@ -871,11 +906,11 @@ public class TestContactManager {
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
-	/*
+	/**
 	* Below are the tests for the List<Meeting> getFutureMeetingList(Calendar contact);
 	*/
 		
-	/*
+	/**
 	* Passing a valid input. Testing that returns all meetings added to the list, since
 	* they all meet the passing criteria of the method.
 	*/
@@ -887,7 +922,7 @@ public class TestContactManager {
 		assertEquals(3,testerContactManager.getFutureMeetingList(testContact).size());	
 	}
 	
-	/*
+	/**
 	* Passing a valid input. Testing if the first meeting in the list is the one
 	* with the earliest date.
 	*/
@@ -901,7 +936,7 @@ public class TestContactManager {
 		assertEquals(testDate,testerContactManager.getFutureMeetingList(testContact).get(0).getDate());	
 	}
 		
-	/*
+	/**
 	* Passing a valid input, but this time changing the date of CalendarManager.
 	* Testing that returns only 2 of the 3 meetings added to the list, since
 	* one of them is already in the past.
@@ -915,7 +950,7 @@ public class TestContactManager {
 		assertEquals(2,testerContactManager.getFutureMeetingList(testContact).size());	
 	}
 	
-	/*
+	/**
 	* Passing a valid input, but who doesn't have any meetings scheduled.
 	* Testing that returns a list that is empty.
 	*/
@@ -928,8 +963,7 @@ public class TestContactManager {
 		assertEquals(true,testerContactManager.getFutureMeetingList(testContact).isEmpty());	
 	}
 	
-	
-	/*
+	/**
 	* Passing an invalid input (a Contact that doesn't exist), testing the IllegalArgumentException.
 	*/
 	@Test
@@ -945,7 +979,7 @@ public class TestContactManager {
 		}
 	}
 	
-	/*
+	/**
 	* Passing an invalid input (a null Contact), testing the NullPointerException.
 	*/
 	@Test
@@ -962,11 +996,11 @@ public class TestContactManager {
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /*
+    /**
 	* Below are the tests for the List<PastMeeting> getPastMeetingListFor(Calendar contact);
 	*/
 		
-	/*
+	/**
 	* Passing a valid input. Testing that returns all meetings added to the list, since
 	* they all meet the passing criteria of the method.
 	*/
@@ -977,7 +1011,7 @@ public class TestContactManager {
 		assertEquals(2,testerContactManager.getPastMeetingListFor(testContact).size());	
 	}
 
-	/*
+	/**
 	* Passing a valid input. Testing if the first meeting in the list is the one
 	* with the earliest date.
 	*/
@@ -988,7 +1022,7 @@ public class TestContactManager {
 		assertEquals(new GregorianCalendar(2018, 9, 14, 15, 30),testerContactManager.getPastMeetingListFor(testContact).get(0).getDate());	
 	}
 	
-   /*
+   /**
 	* Passing a valid input, but who doesn't have any past meetings.
 	* Testing that returns a list that is empty.
 	*/
@@ -999,7 +1033,7 @@ public class TestContactManager {
 		assertEquals(true,testerContactManager.getPastMeetingListFor(testContact).isEmpty());	
 	}
 	
-	/*
+	/**
 	* Passing an invalid input (a Contact that doesn't exist), testing the IllegalArgumentException.
 	*/
 	@Test
@@ -1014,7 +1048,7 @@ public class TestContactManager {
 		}
 	}
 	
-	/*
+	/**
 	* Passing an invalid input (a null Contact), testing the NullPointerException.
 	*/
 	@Test
@@ -1031,12 +1065,12 @@ public class TestContactManager {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////  
   
-    /*
+    /**
 	* Below are all the tests for the flush method. I am creating a ContactManager instance, 
 	* adding 8 contact, 3 meetings, making two of them in past, 
 	*/
 	
-	/*
+	/**
 	* Testing that the new instance has a PastMeeting list equal to 2 meetings,
 	* based on the prior ContactManager flush.
 	*/
@@ -1049,7 +1083,7 @@ public class TestContactManager {
 		assertEquals(2,test.getPastMeetingListFor(testContact).size());
 	}
 	
-	/*
+	/**
 	* Testing that the new instance has a FutureMeeting list equal to 1 meeting,
 	* based on the prior ContactManager flush.
 	*/
@@ -1062,8 +1096,7 @@ public class TestContactManager {
 		assertEquals(1,test.getFutureMeetingList(testContact).size());
 	}
 	
-	
-	/*
+	/**
 	* Testing that the new instance has a Contact List of 8 based on the prior ContactManager flush.
 	*/
 	@Test
@@ -1075,7 +1108,7 @@ public class TestContactManager {
 		assertEquals(8,((ContactManagerImpl)testerContactManager).getsizeofcontactlist());
 	}
 	
-	/*
+	/**
 	* Testing that the future Meeting saved and retrived, matches the ID originally assigned.
 	*/
 	@Test
@@ -1085,7 +1118,7 @@ public class TestContactManager {
 		assertEquals(3,(testerContactManager.getMeetingListOn(new GregorianCalendar(2020, 2, 14, 15, 30)).get(0).getId()));
 	}
 	
-	/*
+	/**
 	* Testing that the future Meeting saved and retrived, matches the Participants list size originally assigned.
 	*/
 	@Test
@@ -1095,7 +1128,7 @@ public class TestContactManager {
 		assertEquals(4,(testerContactManager.getMeetingListOn(new GregorianCalendar(2020, 2, 14, 15, 30)).get(0).getContacts().size()));
 	}
 	
-	/*
+	/**
 	* Testing that if a new contact is added, the contactidcount will return a 9.
 	*/
 	@Test
@@ -1106,7 +1139,7 @@ public class TestContactManager {
 	}
 	
 	
-	/*
+	/**
 	* Testing that if a new meeting is added to the list, it will return a value of 4,
 	* since 3 meetings were added in the previous session of the ContactManager.
 	*/
@@ -1120,11 +1153,11 @@ public class TestContactManager {
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   /*
+   /**
    * Below are the tests for the void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text)
    */
      
-   /*
+   /**
    * Passing valid inputs, testing the size of the list of PastMeetings before and after the execution.  
    */
    @Test
@@ -1135,7 +1168,7 @@ public class TestContactManager {
 	   assertEquals(sizebefore+1,((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList());
    }
     
-   /*
+   /**
    * Passing a null note, testing that a NullPointerException is thrown.
    */
    @Test
@@ -1149,7 +1182,7 @@ public class TestContactManager {
 		}
    }
    
-   /*
+   /**
    * Passing an empty note, testing that a NullPointerException is thrown.
    */
    @Test
@@ -1163,7 +1196,7 @@ public class TestContactManager {
 		}
    }
    
-   /*
+   /**
    * Passing an empty date, testing that a NullPointerException is thrown.
    */
    @Test
@@ -1177,7 +1210,7 @@ public class TestContactManager {
 		}
    }
    
-   /*
+   /**
    * Passing a null list of meeting participants, testing that a NullPointerException is thrown.
    */
    @Test
@@ -1191,7 +1224,7 @@ public class TestContactManager {
 		}
    }
    
-   /*
+   /**
    * Passing an invalid list of meeting participants, testing that an IllegalArgumentException is thrown.
    */
    @Test
@@ -1205,7 +1238,7 @@ public class TestContactManager {
 		}
    }
    
-   /*
+   /**
    * Passing a date in the future, testing that an IllegalStateException is thrown.
    */
    @Test
