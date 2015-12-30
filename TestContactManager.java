@@ -339,36 +339,6 @@ public class TestContactManager {
 	}
 		
 	
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*
-	*  Below are the tests related to the Set<Contact> getContact(List<Integer> ids);
-	*/
-	/*
-	@Test
-	public void testGetContactViaIDsTestMultipleValidIDprovided(){
-		List<Integer> testerList = new LinkedList<Integer>();
-		testerList.add(1);
-		testerList.add(2);
-		TestContactManager.addcontacts(testerContactManager);
-		assertEquals(2,testerContactManager.getContacts(testerList).size());
-	}
-	
-	@Test
-	public void testGetContactViaIDsTestMultipleInvalidIDprovided(){
-		List<Integer> testerList = new LinkedList<Integer>();
-		testerList.add(1);
-		testerList.add(2);
-		testerList.add(3);
-		TestContactManager.addcontacts(testerContactManager);
-		try {
-			testerContactManager.getContacts(testerList);
-		}
-		catch (Exception ex){
-			assertEquals("java.lang.IllegalArgumentException",ex.toString());
-		}	
-	}
-	*/
-	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	/*
 	* Below are the tests for the int addFutureMeeting(Set<Contact> contacts, Calendar date);
@@ -382,12 +352,12 @@ public class TestContactManager {
 		assertEquals(1,testerContactManager.addFutureMeeting(TestContactManager.validContactSet(),futuredate));
 	}
 	
-	/* This test needs to return 1 and 2 since we are setting up two meetings and all arguments are valid.	
+	/* This test needs to return 2 since we are setting up two meetings and all arguments are valid.	
 	*/
 	@Test
 	public void testAddFutureMeetingValidInputsforTwoMeetings(){
 		TestContactManager.addcontacts(testerContactManager);
-		assertEquals(1,testerContactManager.addFutureMeeting(TestContactManager.validContactSet(),futuredate));
+		testerContactManager.addFutureMeeting(TestContactManager.validContactSet(),futuredate);
 		assertEquals(2,testerContactManager.addFutureMeeting(TestContactManager.validContactSet(),furtherfuturedate));
 	}
 	
@@ -441,28 +411,68 @@ public class TestContactManager {
 	}	
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	/*
+	/**
 	* Below are the tests for the int FutureMeeting getFutureMeeting(int id);
 	*/
 	
-	/* Passing a valid input, testing that FutureMeeting returned matches the id, date, size, and each element
+	/** Passing a valid input, testing that FutureMeeting returned matches the id, date, size, and each element
 	* of the participants entered into that meeting.
 	*/
 	@Test
-	public void testGetFutureMeetingValidMeetingInput(){
+	public void testGetFutureMeetingValidMeetingInputTestSize(){
 		TestContactManager.addcontacts(testerContactManager);
 		Set<Contact> testParticipantsMeeting1 = validContactSet();
 		Set<Contact> testNotParticipantsMeeting1 = invalidContactSet();
 		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
-		assertEquals(1,testerContactManager.getFutureMeeting(1).getId());
-		assertEquals(futuredate,testerContactManager.getFutureMeeting(1).getDate());
 		assertEquals(testParticipantsMeeting1.size(),testerContactManager.getFutureMeeting(1).getContacts().size());
 		Set<Contact> meeting1Participants = testerContactManager.getFutureMeeting(1).getContacts();
-		assertEquals(true,meeting1Participants.equals(testParticipantsMeeting1));
-		assertEquals(false,meeting1Participants.equals(testNotParticipantsMeeting1));
-	}	
+	}
+
+	/** Passing a valid input, testing that FutureMeeting returned matches the date entered into that meeting.
+	*/
+	@Test
+	public void testGetFutureMeetingValidMeetingInputTestDate(){
+		TestContactManager.addcontacts(testerContactManager);
+		testerContactManager.addFutureMeeting(validContactSet(),futuredate);
+		assertEquals(futuredate,testerContactManager.getFutureMeeting(1).getDate());
+	}
+
+	/** Passing a valid input, testing that FutureMeeting returned matches the Id entered into that meeting.
+	*/
+	@Test
+	public void testGetFutureMeetingValidMeetingInputTestId(){
+		TestContactManager.addcontacts(testerContactManager);
+		testerContactManager.addFutureMeeting(validContactSet(),futuredate);
+		assertEquals(1,testerContactManager.getFutureMeeting(1).getId());
+	}
 	
-	/* Passing a meeting ID non existent, expecting the return to be null.
+	/**
+	* Passing a valid input, testing that FutureMeeting returned matches the participants entered into that meeting.
+	*/
+	@Test
+	public void testGetFutureMeetingValidMeetingInputTestParticipants(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		Set<Contact> meeting1Participants = testerContactManager.getFutureMeeting(1).getContacts();
+		assertEquals(true,meeting1Participants.equals(testParticipantsMeeting1));
+	}
+	
+	/**
+	* Passing an valid input testing that FutureMeeting returned doesn't matches a set of Participants not
+	entered into that meeting.
+	*/
+	@Test
+	public void testGetFutureMeetingValidMeetingInputTestParticipantsNotInList(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testNotParticipantsMeeting1 = invalidContactSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		Set<Contact> meeting1Participants = testerContactManager.getFutureMeeting(1).getContacts();
+		assertEquals(false,meeting1Participants.equals(testNotParticipantsMeeting1));
+	}
+	
+	/** Passing a meeting ID non existent, expecting the return to be null.
 	*/
 	@Test
 	public void testGetFutureMeetingNotExistingMeetingInput(){
@@ -471,7 +481,7 @@ public class TestContactManager {
 		assertEquals(null,testerContactManager.getFutureMeeting(4));
 	}	
 	
-	/* Passing a meeting ID that is in the past, expecting the return to be an IllegalArgumentException.
+	/** Passing a meeting ID that is in the past, expecting the return to be an IllegalArgumentException.
 	*/
 	@Test
 	public void testGetFutureMeetingPastMeetingInput(){
@@ -488,11 +498,11 @@ public class TestContactManager {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/*
+	/**
 	* Below are the tests for the PastMeeting addMeetingNotes(int id, String text);
 	*/
 	
-	/* Passing a valid input, expecting a PastMeeting to be created and added to PastMeetingList. Testing the size
+	/** Passing a valid input, expecting a PastMeeting to be created and added to PastMeetingList. Testing the size
 	* of the list before and after the AddMeetingNotes() method is executed.
 	*/
 	@Test
@@ -500,123 +510,227 @@ public class TestContactManager {
 		TestContactManager.addcontacts(testerContactManager);
 		TestContactManager.add3futuremeetings(testerContactManager);
 		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+		int originalsize =   ((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList();
 		testerContactManager.addMeetingNotes(1,"Game 1 was a succcess.");
-		assertEquals(1,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+		assertEquals((originalsize+1),(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 	}
 
 
-	/* Passing a an invalidinput (a meeting ID with a date in the future), expecting an IllegalStateException
-    * to be thrown, no PastMeeting to be created or added to PastMeetingList. Testing that the exception is thrown
-	* and that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	/** Passing a an invalidinput (a meeting ID with a date in the future), testing that an IllegalStateException
+    * is thrown.
 	*/
 	@Test
 	public void testAddMeetingNotesInValidDateInput(){
 		TestContactManager.addcontacts(testerContactManager);
 		TestContactManager.add3futuremeetings(testerContactManager);
 		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 		try {
 			testerContactManager.addMeetingNotes(3,"Game 1 was a succcess.");
 		}
 		catch (Exception ex){
 			assertEquals("java.lang.IllegalStateException",ex.toString());
 		}
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 	}
 	
-	/* Passing an invalidinput (a meeting ID that doesn't exist), expecting an IllegalArgumentException
-    * to be thrown, no PastMeeting to be created or added to PastMeetingList. Testing that the exception is thrown
-	* and that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	/** Passing a an invalidinput (a meeting ID with a date in the future), expecting an IllegalStateException
+    * to be thrown. Testing that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	*/
+	@Test
+	public void testAddMeetingNotesInValidDateInputTestNoMeetingAdded(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		int originalsize = (((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList());
+		try {
+			testerContactManager.addMeetingNotes(3,"Game 1 was a succcess.");
+		}
+		catch (Exception ex){
+            //Do nothing.  
+		}
+		assertEquals(originalsize,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+		
+	/** Passing an invalidinput (a meeting ID that doesn't exist), expecting an IllegalArgumentException
+    * to be thrown. Testing that an IllegalArgumentException is thrown.
 	*/
 	@Test
 	public void testAddMeetingNotesInValidMeetingIDInput(){
 		TestContactManager.addcontacts(testerContactManager);
 		TestContactManager.add3futuremeetings(testerContactManager);
 		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 		try {
 			testerContactManager.addMeetingNotes(4,"Game 1 was a succcess.");
 		}
 		catch (Exception ex){
 			assertEquals("java.lang.IllegalArgumentException",ex.toString());
 		}
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 	}
 	
-	/* Passing an invalidinput (null notes), expecting a NullPointerException
-    * to be thrown, no PastMeeting to be created or added to PastMeetingList. Testing that the exception is thrown
-	* and that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	/** Passing an invalidinput (a meeting ID that doesn't exist). Testing that no meeting is added,
+	* by comparing the size of of the list before and after the AddMeetingNotes().
+	*/
+	@Test
+	public void testAddMeetingNotesInValidMeetingIDInputTestNoMeetingAdded(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		int originalsize = (((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList());
+		try {
+			testerContactManager.addMeetingNotes(4,"Game 1 was a succcess.");
+		}
+		catch (Exception ex){
+			// Do nothing just catch.
+		}
+		assertEquals(originalsize,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+	
+	/** Passing an invalidinput (null notes), expecting a NullPointerException
+    * to be thrown. Testing that the exception is thrown and it is a NullPointerException.
 	*/
 	@Test
 	public void testAddMeetingNotesInValidMeetingNullNotesInput(){
 		TestContactManager.addcontacts(testerContactManager);
 		TestContactManager.add3futuremeetings(testerContactManager);
 		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 		try {
 			testerContactManager.addMeetingNotes(1,nullstring);
 		}
 		catch (Exception ex){
 			assertEquals("java.lang.NullPointerException",ex.toString());
 		}
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 	}
 	
-	/* Passing an invalidinput (empty notes), expecting a NullPointerException
-    * to be thrown, no PastMeeting to be created or added to PastMeetingList. Testing that the exception is thrown
-	* and that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	/** Passing an invalidinput (null notes), expecting no PastMeeting to be created or added to PastMeetingList. 
+	* Testing that the size of of the list before and after the AddMeetingNotes() doesn't change.
+	*/
+	@Test
+	public void testAddMeetingNotesInValidMeetingNullNotesInputTestNoMeetingAdded(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		int originalsize = (((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList());
+		try {
+			testerContactManager.addMeetingNotes(1,nullstring);
+		}
+		catch (Exception ex){
+			// Do nothing, just catch.
+		}
+		assertEquals(originalsize,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+	
+	/** Passing an invalidinput (empty notes), expecting a NullPointerException
+    * to be thrown. Testing that a NullPointerException is thrown.
 	*/
 	@Test
 	public void testAddMeetingNotesInValidMeetingEmptyNotesInput(){
 		TestContactManager.addcontacts(testerContactManager);
 		TestContactManager.add3futuremeetings(testerContactManager);
 		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 		try {
 			testerContactManager.addMeetingNotes(1,emptystring);
 		}
 		catch (Exception ex){
 			assertEquals("java.lang.NullPointerException",ex.toString());
 		}
-		assertEquals(0,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
+	}
+	
+	/** Passing an invalidinput (empty notes). Testing that the size of of the list before
+	* and after the AddMeetingNotes() doesn't change.
+	*/
+	@Test
+	public void testAddMeetingNotesInValidMeetingEmptyNotesInputTestNoMettingAdded(){
+		TestContactManager.addcontacts(testerContactManager);
+		TestContactManager.add3futuremeetings(testerContactManager);
+		((ContactManagerImpl)testerContactManager).setCurrentDate(new GregorianCalendar(2019, 3, 14, 15, 30));
+		int originalsize = (((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList());
+		try {
+			testerContactManager.addMeetingNotes(1,emptystring);
+		}
+		catch (Exception ex){
+			// Do nothing. Just catch.
+		}
+		assertEquals(originalsize,(((ContactManagerImpl)testerContactManager).getSizeofPastMeetingList()));
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
-	/*
+	/**
 	* Below are the tests for the Meeting getMeeting(int id);
 	*/
 
-	/* Passing an invalidinput (a meeting ID that doesn't exist), expecting a Nullreturn.
+	/** 
+	*Passing an invalidinput (a meeting ID that doesn't exist), testing a Null is returned.
 	*/
 	@Test
 	public void testGetMeetingInValidMeetingIDInput(){
 		TestContactManager.addcontacts(testerContactManager);
 		TestContactManager.add3futuremeetings(testerContactManager);
 		assertEquals(null,testerContactManager.getMeeting(5));
-		
 	}
 	
-	/* Passing a validinput expecting a Meeting to be return. Testing that the field of the meeting
-	*  (id, participants, date) match the field of the meeting that I had previously added to the list.
+	/**
+	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (id) match the field of the meeting that I had previously added to the list.
 	*/
 	@Test
 	public void testGetMeetingValidMeetingIDInput(){
 		TestContactManager.addcontacts(testerContactManager);
 		Set<Contact> testParticipantsMeeting1 = validContactSet();
-		Set<Contact> testNotParticipantsMeeting1 = invalidContactSet();
 		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
 		assertEquals(1,testerContactManager.getMeeting(1).getId());
-		assertEquals(futuredate,testerContactManager.getMeeting(1).getDate());
-		assertEquals(testParticipantsMeeting1.size(),testerContactManager.getMeeting(1).getContacts().size());
-		Set<Contact> meeting1Participants = testerContactManager.getMeeting(1).getContacts();
-		assertEquals(true,meeting1Participants.equals(testParticipantsMeeting1));
-		assertEquals(false,meeting1Participants.equals(testNotParticipantsMeeting1));
 	}
 	
-	/* Passing a validinput expecting a Meeting to be return. Testing that the field of the meeting
-	*  (id, participants, date) match the field of the meeting that I had previously added to the list.
+	/**
+	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (date) match the field of the meeting that I had previously added to the list.
+	*/
+	@Test
+	public void testGetMeetingValidMeetingInputDate(){
+		TestContactManager.addcontacts(testerContactManager);
+		testerContactManager.addFutureMeeting(validContactSet(),futuredate);
+		assertEquals(futuredate,testerContactManager.getMeeting(1).getDate());
+	}
+	
+	/**
+	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (size of participants set) match the field of the meeting that I had previously added to the list.
+	*/
+	@Test
+	public void testGetMeetingValidMeetingInputSize(){
+		TestContactManager.addcontacts(testerContactManager);
+		testerContactManager.addFutureMeeting(validContactSet(),futuredate);
+		assertEquals(validContactSet().size(),testerContactManager.getMeeting(1).getContacts().size());
+	}
+	
+	/**
+	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (participants) match the field of the meeting that I had previously added to the list.
+	*/
+	@Test
+	public void testGetMeetingValidMeetingInputParticipants(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		Set<Contact> meeting1Participants = testerContactManager.getMeeting(1).getContacts();
+		assertEquals(true,meeting1Participants.equals(testParticipantsMeeting1));
+	}
+	
+	/**
+	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (participants) returned doesn't match a random list of participants.
+	*/
+	@Test
+	public void testGetMeetingValidMeetingInputParticipantsNotEqualInvalidSet(){
+		TestContactManager.addcontacts(testerContactManager);
+		Set<Contact> testParticipantsMeeting1 = validContactSet();
+		Set<Contact> testNotParticipantsMeeting1 = invalidContactSet();
+		testerContactManager.addFutureMeeting(testParticipantsMeeting1,futuredate);
+		Set<Contact> meeting1Participants = testerContactManager.getMeeting(1).getContacts();
+		assertEquals(false,meeting1Participants.equals(testNotParticipantsMeeting1));
+	}
+		
+	/** Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (id) match the field of the meeting that I had previously added to the list.
 	*/
 	@Test
 	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart1(){
@@ -628,6 +742,9 @@ public class TestContactManager {
 		assertEquals(2,testerContactManager.getMeeting(2).getId());
 	}
 	
+	/** Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (date) match the field of the meeting that I had previously added to the list.
+	*/
 	@Test
 	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart2(){
 		TestContactManager.addcontacts(testerContactManager);
@@ -638,6 +755,9 @@ public class TestContactManager {
 		assertEquals(furtherfuturedate,testerContactManager.getMeeting(2).getDate());
 	}
 	
+	/** Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (participants size) match the field of the meeting that I had previously added to the list.
+	*/
 	@Test
 	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart3(){
 		TestContactManager.addcontacts(testerContactManager);
@@ -648,6 +768,9 @@ public class TestContactManager {
 		assertEquals(testParticipantsMeeting2.size(),testerContactManager.getMeeting(2).getContacts().size());
 	}
 	
+	/** Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (participants) match the field of the meeting that I had previously added to the list.
+	*/
 	@Test
 	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart4(){
 		TestContactManager.addcontacts(testerContactManager);
@@ -657,9 +780,11 @@ public class TestContactManager {
 		testerContactManager.addFutureMeeting(testParticipantsMeeting2,furtherfuturedate);
 		Set<Contact> meeting2Participants = testerContactManager.getMeeting(2).getContacts();
 		assertEquals(true,meeting2Participants.equals(testParticipantsMeeting2));
-		assertEquals(false,meeting2Participants.equals(testParticipantsMeeting1));
 	}
 	
+	/** Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
+	*  (participants) match doesn't match a random set of participants.
+	*/
 	@Test
 	public void testGetMeetingValidMeetingIDInputwthMultipleMeetingsinTheListPart5(){
 		TestContactManager.addcontacts(testerContactManager);
