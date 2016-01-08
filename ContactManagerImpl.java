@@ -78,9 +78,11 @@ public class ContactManagerImpl implements ContactManager {
 	
 	/**
 	* This is a setter method for the current date in the CalendarManager.
+	* The flush() method is being called to save the update done to ContactManager to disk.
 	*/
 	public void setCurrentDate(Calendar currentdate){
 		this.currentdate = currentdate;
+		this.flush();
 	}
 	
 	/**
@@ -93,12 +95,14 @@ public class ContactManagerImpl implements ContactManager {
 	/**
 	* Implementation of method from {@see ContactManager} interface based on its specifications.
 	* Refer to {@see ContactManager} for specifications details.
+	* The flush() method is being called to save the update done to ContactManager to disk.
 	*/
 	@Override
 	public int addNewContact (String name, String notes){
 		Contact newContact = new ContactImpl(contactidcount+1,name,notes);
 		contactidcount ++;
-		contactlist.add(newContact);		
+		contactlist.add(newContact);
+		this.flush();
 		return contactidcount;
 	}
 	
@@ -295,6 +299,7 @@ public class ContactManagerImpl implements ContactManager {
 	* are thrown.
 	* validEvaluator throws an InvalidArgumentException if any of the contacts are not in the contact list.
 	* meetingidcount is the counter of unique meeting ids added into ContactManager.
+	* The flush() method is being called to save the update done to ContactManager to disk.
 	*/
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
@@ -304,7 +309,8 @@ public class ContactManagerImpl implements ContactManager {
 		validEvaluator(validContact(contacts));
 		FutureMeeting newMeeting = new FutureMeetingImpl(meetingidcount+1,date,contacts);
 		meetingidcount ++;
-		meetinglist.add(newMeeting);		
+		meetinglist.add(newMeeting);
+		this.flush();
 		return meetingidcount;
 	}
 	
@@ -373,7 +379,8 @@ public class ContactManagerImpl implements ContactManager {
 	* testDateInPast will throw an IllegalStateException if the date is in the future.
 	* testNull will throw a NullPointerException if any of the arguments are null.
 	* validEvaluator and validContact will throw an IllegalArgumentException if the
-    * list of contacts being passed is empty or contains a contact that doesn't exist.	
+    * list of contacts being passed is empty or contains a contact that doesn't exist.
+    * The flush() method is being called to save the update done to ContactManager to disk.	
 	*/
 	@Override
 	public void addNewPastMeeting (Set<Contact> contacts, Calendar date, String text){
@@ -385,6 +392,7 @@ public class ContactManagerImpl implements ContactManager {
 		PastMeeting newMeeting = new PastMeetingImpl(meetingidcount+1,date,contacts,text);
 		pastmeetinglist.add(newMeeting);
 		meetingidcount ++;
+		this.flush();
 	}
 	
 	/**
@@ -397,6 +405,7 @@ public class ContactManagerImpl implements ContactManager {
 	* If notes are null or empty a NullPointerException is thrown, this is coded directly in the PastMeetingImpl 
 	* constructor method.
 	* If any input is invalid (date, id, notes) this method returns null and nothing is added to the PastMeetingList.
+	* The flush() method is being called to save the update done to ContactManager to disk.
 	*/
 	@Override
 	public PastMeeting addMeetingNotes (int id, String notes){
@@ -404,6 +413,7 @@ public class ContactManagerImpl implements ContactManager {
 			for (int i=0; i< pastmeetinglist.size();i++){
 				if (pastmeetinglist.get(i).getId() == id){
 					((PastMeetingImpl)pastmeetinglist.get(i)).appendNotes(notes);
+					this.flush();
 					return pastmeetinglist.get(i);
 				}
 			}
@@ -417,11 +427,13 @@ public class ContactManagerImpl implements ContactManager {
 						PastMeeting newPastMeeting = new PastMeetingImpl(id,meetinglist.get(i).getDate(),meetinglist.get(i).getContacts(),notes);
 						pastmeetinglist.add(newPastMeeting);
 						meetinglist.remove(i);
+						this.flush();
 						return newPastMeeting;
 					}
 				}
 			}
 		}
+		this.flush();
 		return null;
 	}
 		
