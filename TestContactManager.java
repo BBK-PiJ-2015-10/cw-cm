@@ -1072,12 +1072,11 @@ public class TestContactManager {
 	
 	/**
 	* Testing that the new instance has a PastMeeting list equal to 2 meetings,
-	* based on the prior ContactManager flush.
+	* based on the prior ContactManager execution..
 	*/
 	@Test
 	public void testFlushPartITestPastMeetingsList(){
 		TestContactManager.add2PastMeetings(testerContactManager);
-		testerContactManager.flush();
 		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
 		ContactManager test = new ContactManagerImpl();
 		assertEquals(2,test.getPastMeetingListFor(testContact).size());
@@ -1085,24 +1084,22 @@ public class TestContactManager {
 	
 	/**
 	* Testing that the new instance has a FutureMeeting list equal to 1 meeting,
-	* based on the prior ContactManager flush.
+	* based on the prior ContactManager execution.
 	*/
 	@Test
 	public void testFlushPartIITestFutureMeetingsList(){
 		TestContactManager.add2PastMeetings(testerContactManager);
-		testerContactManager.flush();
 		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
 		ContactManager test = new ContactManagerImpl();
 		assertEquals(1,test.getFutureMeetingList(testContact).size());
 	}
 	
 	/**
-	* Testing that the new instance has a Contact List of 8 based on the prior ContactManager flush.
+	* Testing that the new instance has a Contact List of 8 based on the prior ContactManager execution.
 	*/
 	@Test
 	public void testFlushPartIVTestContactList(){
 		TestContactManager.add2PastMeetings(testerContactManager);
-		testerContactManager.flush();
 		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
 		ContactManager test = new ContactManagerImpl();
 		assertEquals(8,((ContactManagerImpl)testerContactManager).getsizeofcontactlist());
@@ -1114,7 +1111,6 @@ public class TestContactManager {
 	@Test
 	public void testFlushPartVTestFutureMeetingListID(){
 		TestContactManager.add2PastMeetings(testerContactManager);
-		testerContactManager.flush();
 		assertEquals(3,(testerContactManager.getMeetingListOn(new GregorianCalendar(2020, 2, 14, 15, 30)).get(0).getId()));
 	}
 	
@@ -1124,7 +1120,6 @@ public class TestContactManager {
 	@Test
 	public void testFlushPartVITestFutureMeetingListContacts(){
 		TestContactManager.add2PastMeetings(testerContactManager);
-		testerContactManager.flush();
 		assertEquals(4,(testerContactManager.getMeetingListOn(new GregorianCalendar(2020, 2, 14, 15, 30)).get(0).getContacts().size()));
 	}
 	
@@ -1134,7 +1129,6 @@ public class TestContactManager {
 	@Test
 	public void testFlushPartVIITestContactIdCount(){
 		TestContactManager.add2PastMeetings(testerContactManager);
-		testerContactManager.flush();
 		assertEquals(9,(testerContactManager.addNewContact("Juan Martin Potro","Argentina")));
 	}
 	
@@ -1146,9 +1140,9 @@ public class TestContactManager {
 	@Test
 	public void testFlushPartVIIITestMeetingIdCount(){
 		TestContactManager.add2PastMeetings(testerContactManager);
-		testerContactManager.flush();
 		assertEquals(4,(testerContactManager.addFutureMeeting(validContactSmallerSet(),new GregorianCalendar(2020, 5, 14, 15, 30))));
 	}
+	
 	
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -34,7 +34,7 @@ public class PastMeetingImpl extends MeetingImpl implements PastMeeting, Seriali
 	* This method is to be used in the Constructor methods for PastMeetingImpl.
     */
 	public void testNotesNull (String notes){
-	    if ( (notes == null) || (notes.matches(".*[a-zA-Z]+.*")==false) || (notes.trim().isEmpty()==true)  {
+	    if ( (notes == null) || (notes.matches(".*[a-zA-Z]+.*")==false) || (notes.trim().isEmpty()==true) )  {
 			throw new NullPointerException();
 		}
 	}
