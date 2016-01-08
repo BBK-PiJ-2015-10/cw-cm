@@ -1,28 +1,27 @@
+import java.io.Serializable;
 /**
-* This is the implementation of the Contact Interface.
-*
-* @see Contact for details on method definitions.
+* This is the implementation {@see Contact} with some additional methods.
 *
 * @author YAP
 */
-public class ContactImpl implements Contact {
+public class ContactImpl implements Contact, Serializable {
 
-	/*
+	/**
 	* This is the field that will store each Contact id, it is a unique field.
 	*/
 	private int id;
 	
-	/*
+	/**
 	* This is the field that will store each Contact name (First and Last Name).
 	*/
 	private String name;
 	
-	/*
+	/**
 	* This is the field to host any relevant notes about the contact.
 	*/
 	private String notes;
 	
-	/*
+	/**
 	* This is one of the Constructors for the ContactImpl class.
 	* The id must be greater than zero, otherwise IllegalArgumentException is thrown
 	* via the testId method call. Similarly, if the name and notes passed are null,
@@ -40,7 +39,7 @@ public class ContactImpl implements Contact {
 			addNotes(notes);
 	}
 	
-	/*
+	/**
 	* This is one of the Constructors for the ContactImpl class.
 	* The id must be greater than zero, otherwise IllegalArgumentException is thrown
 	* via the testId method call. Similarly, if the name is null,
@@ -56,9 +55,10 @@ public class ContactImpl implements Contact {
 			setName(name);
 	}
 	
-	/*
-	*  The ids for each contact can't be 0 or negatives. This method is to be used
-	*  in the Constructor methods for ContactImpl.
+	/**
+	* This is an auxiliary method that test if an int value is negative or zero.
+	* @throws IllegalArgumentException if value passed is negative or zero.
+	* This method is to be used in the Constructor methods for ContactImpl.
     */
 	public void testId(int id){
 		if (id <=0 ){
@@ -67,55 +67,61 @@ public class ContactImpl implements Contact {
 	}
 	
 	//NEED TO ADD THE BELOW METHOD FOR THE ID TOO, ALSO RUN A TEST ON IT.
-	/*
-	*  This method is to be used in the Constructor to ensure that neither name 
-	*  or notes are null, or empty, and have at least one alphabet letter.
-	*/
+	/**
+	* This is an auxiliary method that test if a String value is null or empty
+	* and that it contains at least one letter.
+	* @throws IllegalArgumentException if value passed is null or negative.
+	* This method is to be used in the Constructor methods for ContactImpl.
+	* Leveraring a regular expression to test that it contains at least 1 letter.
+    */
 	public void testNull (String input ){
 	    if ( (input == null) || (input.matches(".*[a-zA-Z]+.*")==false) ){
 			throw new NullPointerException();
 		}
 	}
 	
-	
-	/*
-	* @see Contact for details on method definition.
+	/**
+	* Implementation of method from {@see Contact} interface based on its specifications.
 	*/
 	@Override
 	public int getId(){
 		return id;
 	}
 	
-	/*
-	* This is a setter method for id.
+	/**
+	* This is auxialiary method to set an Id for a contact. This is leveraged in the Constructor
+	* method for ContactImpl.	
 	*/
 	public void setId(int id){
 		this.id=id;
 	}
 	
-	/*
-	* @see Contact for details on method definition.
+	/**
+	* Implementation of method from {@see Contact} interface based on its specifications.
 	*/
+	@Override
 	public String getName(){
 		return this.name;
 	}
 	
-	/*
-	* This is a setter method for name.
+	/**
+	* This is auxialiary method to set the name for a contact. This is leveraged in the Constructor
+	* method for ContactImpl.	
 	*/
 	public void setName(String name){
 		this.name = name;
 	}
 	
-	/*
-	* @see Contact for details on method definition.
+	/**
+	* Implementation of method from {@see Contact} interface based on its specifications.
 	*/
+	@Override
 	public String getNotes(){
 		return this.notes;
 	}
 	
-	/*
-	* @see Contact for details on method definition.
+	/**
+	* Implementation of method from {@see Contact} interface based on its specifications.
 	*/
 	public void addNotes(String notes){
 		this.notes = notes;
