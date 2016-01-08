@@ -18,7 +18,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 
 /**
-*  This is the implementation of ContactManager using LinkedList.
+*  This is the implementation of (@see ContactManager) interface with some additional methods.
 *
 */
 public class ContactManagerImpl implements ContactManager {
@@ -62,7 +62,7 @@ public class ContactManagerImpl implements ContactManager {
 		
 	/**
 	* Contructor method.
-	* It reads prior instances of the ContactManager if they exist, if not
+	* It read prior instances of the ContactManager if they exist, if not
 	* it inizilizes the list data structures.
 	*/
 	public ContactManagerImpl (){
@@ -91,7 +91,8 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* Implementation of method from interface, it leverages the contactidcount to generate unique IDs.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	*/
 	@Override
 	public int addNewContact (String name, String notes){
@@ -102,7 +103,8 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* Implementation of method from interface.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	* TestNull method being leveraged to throw NullPointerException in case of null input.
 	* trim().isEmpty() methods being leveraged to test if input is an empty String or a
 	* String of white spaces.
@@ -127,8 +129,9 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* This is an auxiliary method that displays the size of the list of contacts in the contact manager. To 
-	* determine if it needs to be kept or not in the future.
+	* This is an auxiliary method that displays the size of the list of contacts in the contact manager. This
+	* is being leverated in {@see TestContactManager } to evaluate testing results across many of the methods 
+	* implemented in ContactManagerImpl.
 	*/
 	public int getsizeofcontactlist(){
 		return contactlist.size();
@@ -136,7 +139,8 @@ public class ContactManagerImpl implements ContactManager {
 	
 	/**
 	* This method returns the size of the FutureMeetings in the ContactManager.
-	* It was built mainly to facilicate the Test methods in the TestContactManager class
+	* This is being leverated in {@see TestContactManager } to evaluate testing results across many of the 
+	* methods implemented in ContactManagerImpl.
 .	*/
 	public int getSizeofMeetingList(){
 		return meetinglist.size();
@@ -144,7 +148,8 @@ public class ContactManagerImpl implements ContactManager {
 	
 	/**
 	* This method returns the size of the PastMeetings in the ContactManager.
-	* It was built mainly to facilicate the Test methods in the TestContactManager class
+	* This is being leverated in {@see TestContactManager } to evaluate testing results across many of the 
+	* methods implemented in ContactManagerImpl.
 .	*/
 	public int getSizeofPastMeetingList(){
 		return pastmeetinglist.size();
@@ -152,9 +157,9 @@ public class ContactManagerImpl implements ContactManager {
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	/**
-	* Below are 5 testNull methods with slight different signatures. 
+	* Below are 5 testNull methods with slightly different signatures. They are being used to throw the NullPointerException
+	* and IllegalArgumentExceptions specified on the different methods of {@see ContactManager } interface.
 	*/
-	
 	public void testNull (String input ){
 	    if ( input == null) {
 			throw new NullPointerException();
@@ -187,11 +192,9 @@ public class ContactManagerImpl implements ContactManager {
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
-	
-	
 	/**
-	*  This method compares the date being input versus the current date on the CalendarManager.
-	*  If the input date in earlier than current date, then an IllegalArgumentException is thrown.
+	*  This method compares the date being entered versus the current date in the CalendarManager.
+	*  If the input date in earlier than current date an IllegalArgumentException is thrown.
 	*  This method is to be used within the int addFutureMeeting(Set<Contact> contacts, Calendar date)
 	*  method.
 	*/
@@ -202,9 +205,9 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	*  This method compares the date being input versus the current date on the CalendarManager.
+	*  This method compares the date being input versus the current date in the CalendarManager.
 	*  If the input date is later than current date, then an IllegalStateException is thrown.
-	*  This method is to be used within the int addMeetingNotes(int id, String txt) method
+	*  This method is to be used within the int addMeetingNotes(int id, String txt) method.
 	*/
 	public void testDateInPast (Calendar input){
 		if (input.after(currentdate)){
@@ -215,14 +218,12 @@ public class ContactManagerImpl implements ContactManager {
 	/**
 	* This is an auxiliary method to support the implementation of Set<Contact> getContact(int ids).
 	* It evaluates an id provided against the list of IDs in ContactManager. If the ID is not found
-	* an IllegalAccessException is thrown.
-	* If ID is found, a Set<Contact> is return with the Contact of the id provided added to the Set<Contact>.
-	*
+	* an IllegalAccessException is thrown. If the ID is found, a Set<Contact> is return with the Contact
+	* of the id provided added to the Set<Contact>.
 	* @param id of a contact to be evaluated.
 	* @param Set<Contact> the Set of Contact to be appended in case the ID provided is valid.
 	* @throws IllegalArgumentException if the ID provided doesn't belong to a Contact in the ContactManager.
 	* @return a Set<Contact> with the Contact whose ID was provided added to the Set.
-	*
 	*/
 	public Set<Contact> contactEvaluator(int id, Set<Contact> input){
 		boolean invalidID = true;
@@ -240,7 +241,8 @@ public class ContactManagerImpl implements ContactManager {
 	
 	
 	/**
-	* Implemenation of method based on interface.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	* Leverages a List<Integer> temp to faciliate the iteration of ids provided.
 	* Leverages the method Set<Contact> contactEvaluator(int id, Set<Contact> input)
 	* to evaluate if the ID provided is in the ContactManager list.
@@ -286,10 +288,13 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* The first test ensures that if pastdate is entered, then InvalidArgumentException is thrown.
-	* the second and third tests ensures that if Null dates or contacts are entered NullPointerExceptions
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
+	* The first test ensures that if pastdate is entered an InvalidArgumentException is thrown.
+	* The second and third tests ensures that if Null dates or contacts are entered NullPointerExceptions
 	* are thrown.
 	* validEvaluator throws an InvalidArgumentException if any of the contacts are not in the contact list.
+	* meetingidcount is the counter of unique meeting ids added into ContactManager.
 	*/
 	@Override
 	public int addFutureMeeting(Set<Contact> contacts, Calendar date){
@@ -304,16 +309,19 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* This method returns the List of Contacts in ContactManager. It was built with the objective
-	* of facilitating the testing of ContactManager in the TestContactManager class.
+	
+	
+	* This is an auxiliary method. It returns the List of Contacts in ContactManager. It was 
+	* built with the objective of facilitating the testing of ContactManager in the 
+	* TestContactManager class.
 	*/
 	public List<Contact> getContactList(){
 		return contactlist;
 	}
 	
 	/**
-	* This method compares a particular meeting id with the list of meeting ids of PastMeetings.
-	* Returns false if the meeting id entered is in the PastMeeting list of IDs.
+	* This method compares a particular meeting id with the list of meeting IDs of pastMeetings.
+	* Returns false if the meeting id entered is in the pastMeeting list of IDs.
 	* The method is to be used in the getFutureMeeting method.
 	*/
 	public boolean testNotInPastMeetingList (int id){
@@ -326,6 +334,11 @@ public class ContactManagerImpl implements ContactManager {
 		return result;	
 	}
 	
+	/**
+	* This method compares a particular meeting id with the list of meeting IDs of meetinglist.
+	* Returns true if the meeting id entered is in the meeting list of IDs. This method is to
+	* being leveraged across ContactManager.
+	*/
 	public boolean testInMeetingList (int id){
 		boolean result = false;
 		for (int i=0; i< meetinglist.size();i++){
@@ -338,7 +351,8 @@ public class ContactManagerImpl implements ContactManager {
 	
 	
 	/**
-	* Implementation of method from interface.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	* testDate will throw an IllegalArgumentException if meeting date is before the CurrentDate of ContactManager.
 	* If no meeting is found under that ID, null is returned.
 	*/
@@ -353,9 +367,9 @@ public class ContactManagerImpl implements ContactManager {
 		return null;
 	}
 	
-	
 	/**
-	* Implementation of method based on interface specifications.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	* testDateInPast will throw an IllegalStateException if the date is in the future.
 	* testNull will throw a NullPointerException if any of the arguments are null.
 	* validEvaluator and validContact will throw an IllegalArgumentException if the
@@ -374,7 +388,8 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* Implementation of method from interface.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	* testInMeetinglist will return true if a meeting with that id is found in the meetinglist.
 	* validEvaluator will throw an IllegalArgumentException if the value passed by testinMeeting is false. Meaning,
 	* if the is is not found in the meeting id.
@@ -411,7 +426,8 @@ public class ContactManagerImpl implements ContactManager {
 	}
 		
 	/**
-	* Implementation of method from interface.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	* If no id is found it returns null, otherwise it returns the Meeting requested. 
 	*/
 	@Override
@@ -436,7 +452,7 @@ public class ContactManagerImpl implements ContactManager {
 	
 	/**
 	* This a method to compare if two calendar objects ocurred in the same date. 
-	* This method is being leveraged on @see (getMeetingListOn).
+	* This method is being leveraged on getMeetingListOn(Calendar date) method.
 	*/
 	public boolean sameDate (Calendar input1, Calendar input2){
 		boolean result = false;
@@ -452,7 +468,8 @@ public class ContactManagerImpl implements ContactManager {
 	
 	
 	/**
-	* This a chronologically list sorter to be leveraged on getMeetingListOn method.
+	* This a chronologically list sorter to be leveraged on getMeetingListOn(Calendar date) 
+	* method.
 	*/
 	public void sortMeetingList(List<Meeting> input){
 		Collections.sort(input, (Meeting input1, Meeting input2) ->
@@ -462,7 +479,8 @@ public class ContactManagerImpl implements ContactManager {
 	
 	
 	/**
-	* This a chronologically list sorter to be leveraged on getPastMeetingListFor method.
+	* This a chronologically list sorter to be leveraged on getPastMeetingListFor(Contact contact) 
+	* method.
 	*/
 	public void sortPastMeetingList(List<PastMeeting> input){
 		Collections.sort(input, (PastMeeting input1, PastMeeting input2) ->
@@ -472,8 +490,9 @@ public class ContactManagerImpl implements ContactManager {
 	
 	
 	/**
-	* Implement method from interface.
-	* testNull(date) will throw a NullPointerException if date is empty
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
+	* testNull(date) will throw a NullPointerException if date is empty.
 	* sameDate is used to evaluate each date of the meetinglist to the date passed in
 	* the argument.
 	* sortMeetingList is a sorter based on chronological meeting date.
@@ -502,8 +521,8 @@ public class ContactManagerImpl implements ContactManager {
 	
 	/**
 	* This a method to test if a Contact is in a particular Set of contacts.
-	* This is to be leveraged in the @getFutureMeeting(Contact contact)
-	* method as well as the @getPastMeetingListFor(Contact contact) methods.
+	* This is to be leveraged in the getFutureMeeting(Contact contact)
+	* method as well as the getPastMeetingListFor(Contact contact) methods.
 	*/
 	public boolean contactInMeeting (Set<Contact> participants, Contact contact){
 		boolean result = false;
@@ -516,10 +535,11 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* This is the implementation of method from interface.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	* testNull will throw a NullPointerException if contact is null.
 	* validEvaluator and validContact test if the Contact exists in
-	* current list of contacts. Using these two methods since they are
+	* the current list of contacts. Using these two methods since they are
 	* already being leveraged in other methods in this program. An Illegal-
 	* argumentException will be thrown if the contact is not in the list of Contacts.
 	* Any meetings that have dates occurring before the currentdate of the CalendarManager
@@ -545,7 +565,8 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* This is the implementation of method from interface.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
+	* Refer to {@see ContactManager} for specifications details.
 	* testNull will throw a NullPointerException if contact is null.
 	* validEvaluator and validContact test if the Contact exists in
 	* current list of contacts. Using these two methods since they are
@@ -554,7 +575,6 @@ public class ContactManagerImpl implements ContactManager {
 	* Any meetings that have dates occurring after the currentdate of the CalendarManager
 	* are excluded from the list to be returned.
 	* sortMeetingList just sorts the list on chronological order.
-	*
 	*/
 	@Override
 	public List<PastMeeting> getPastMeetingListFor(Contact contact){
@@ -576,6 +596,7 @@ public class ContactManagerImpl implements ContactManager {
 	
 	/**
 	* Implemenation of interface based on specifications.
+	* Implementation of method from {@see ContactManager} interface based on its specifications.
 	* Leverages APIs: ObjectOutputStream, BufferedOutputStream (for performance), and FileOutputStream.
 	* Encapsulated in try and catch statements in case an IOException occurs.
 	*/
