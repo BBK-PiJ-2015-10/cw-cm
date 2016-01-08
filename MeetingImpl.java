@@ -1,27 +1,30 @@
 import java.util.Calendar;
 import java.util.Set;
+import java.io.Serializable;
 
-public abstract class MeetingImpl implements Meeting {
+/**
+* An implementation of Meeting with additional methods.
+*
+*/
+public abstract class MeetingImpl implements Meeting, Serializable {
 
-	/*
+	/**
 	* This is to hold the unique meeting id.
 	*/
 	private int id;
 	
-	/*
+	/**
 	* This is to hold the date and time of the meeting.
-	*
 	*/
 	private Calendar date;
 	
 	
-	/*
+	/**
 	* This is to hold the set of participants for the meeting.
-	*
 	*/
 	private Set<Contact> participants;
 	
-	/*
+	/**
 	* This is the Constructor for MeetingImpl.
 	* The id must be greater than zero, otherwise IllegalArgumentException is thrown
 	* via the testId method call. Similarly, if the date or participants passed are null,
@@ -39,9 +42,10 @@ public abstract class MeetingImpl implements Meeting {
 		setParticipants(participants);
 	}
 	
-	/*
-	*  The ids for each meeting can't be 0 or negatives. This method is to be used
-	*  in the Constructor methods for MeetingImpl.
+	/**
+	* This is an auxiliary method that test if a value is negative or zero.
+	* @throws IllegalArgumentException if value passed is negative or zero.
+	* This method is to be used in the Constructor methods for MeetingImpl.
     */
 	public void testId(int id){
 		if (id <=0 ){
@@ -49,8 +53,10 @@ public abstract class MeetingImpl implements Meeting {
 		}		
 	}
 	
-	/*
-	*  Dates can't be null. This method is to be leveraged in the Constructor method.
+	/**  
+	* This is an auxiliary method that test if a Calendar input type value is null.
+	* @throws NullPointerException if value passed is null.
+	* This method is to be used in the Constructor methods for MeetingImpl to test dates.
 	*/
 	public void testNull (Calendar date ){
 	    if ( date == null ){
@@ -59,8 +65,10 @@ public abstract class MeetingImpl implements Meeting {
 	}
 		
 	
-	/*
-	*  Participants list can't be null. This method is to be leveraged in the Constructor method.
+	/**
+	* This is an auxiliary method that test if a Set<Contact> input type value is null or empty.
+	* @throws NullPointerException if value passed is null or empty.
+	* This method is to be used in the Constructor methods for MeetingImpl to test dates.
 	*/
 	public void testNull (Set<Contact> participants ){
 	    if ( (participants == null) || (participants.isEmpty()==true) ) {
@@ -68,54 +76,54 @@ public abstract class MeetingImpl implements Meeting {
 		}
 	}
 	
-	/*
-	* Returns id of this meeting.
+	/**
+	* Implementation of method from {@see Meeting} interface based on its specifications.
 	*/
 	@Override
 	public int getId(){
 		return this.id;
 	}
 	
-	/*
-	* Sets id of this meeting.
+	/**
+	* This is auxialiary method to set an Id for a meeting. This is leveraged in the Constructor
+	* method for MeetingImpl.	
 	*/
 	public void setId(int id){
 		this.id=id;
 	}
 	
-	
-	/*
-	* Returns date of this meeting.
+	/**
+	* Implementation of method from {@see Meeting} interface based on its specifications.
 	*/
 	@Override
 	public Calendar getDate(){
 		return this.date;
 	}
 	
-	/*
-	* Sets date of this meeting.
+	/**
+	* This is auxialiary method to set the date for a meeting. This is leveraged in the Constructor
+	* method for MeetingImpl.	
 	*/
 	public void setDate(Calendar date){
 		this.date=date;
 	}
 	
-	/*
-	* Returns Set of Contacts of this meeting.
-	*
+	/**
+	* Implementation of method from {@see Meeting} interface based on its specifications.
+	* Refer to {@see Meeting} interface for specifications details.
 	*/
 	@Override
 	public Set<Contact> getContacts(){
 		return this.participants;
 	}
 	
-	/*
-	* Sets the Participants for this meeting.
+	/**
+	* This is auxialiary method to set the participants for a meeting. This is leveraged in the Constructor
+	* method for MeetingImpl.	
 	*/
 	public void setParticipants(Set<Contact> participants){
 		this.participants=participants;
 	}
 	
-	
-
 	
 }
