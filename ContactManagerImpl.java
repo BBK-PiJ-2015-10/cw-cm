@@ -315,8 +315,6 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	
-	
 	* This is an auxiliary method. It returns the List of Contacts in ContactManager. It was 
 	* built with the objective of facilitating the testing of ContactManager in the 
 	* TestContactManager class.
