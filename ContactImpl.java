@@ -66,7 +66,6 @@ public class ContactImpl implements Contact, Serializable {
 		}		
 	}
 	
-	//NEED TO ADD THE BELOW METHOD FOR THE ID TOO, ALSO RUN A TEST ON IT.
 	/**
 	* This is an auxiliary method that test if a String value is null or empty
 	* and that it contains at least one letter.
