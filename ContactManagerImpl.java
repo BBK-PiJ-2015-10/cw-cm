@@ -634,6 +634,7 @@ public class ContactManagerImpl implements ContactManager {
 	* Leverages APIs: ObjectInputStream, BufferedInputStream (for performance), and FileInputStream.
 	* Encapsulated in try and catch statements in case an IOException occurs.
 	*/
+	@SuppressWarnings("unchecked")
 	public void capture (){
 		try (ObjectInputStream d = new ObjectInputStream( new BufferedInputStream( new FileInputStream("ContactManager.ser")));) {
             contactlist = (List<Contact>) d.readObject();
