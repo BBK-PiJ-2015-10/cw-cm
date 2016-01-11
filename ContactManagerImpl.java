@@ -623,7 +623,6 @@ public class ContactManagerImpl implements ContactManager {
 			encode.writeObject(meetinglist);
 			encode.writeObject(meetingidcount);
 			encode.writeObject(pastmeetinglist);
-			encode.writeObject(currentdate);
 		}
 		catch (IOException ex){
 			System.err.println(ex);
@@ -644,7 +643,6 @@ public class ContactManagerImpl implements ContactManager {
 			meetinglist = (List<FutureMeeting>) d.readObject();
 			meetingidcount = (Integer) d.readObject();
 			pastmeetinglist = (List<PastMeeting>) d.readObject();
-			currentdate = (Calendar) d.readObject();
 			
         } catch (IOException | ClassNotFoundException ex) {
             System.err.println("On write error " + ex);
