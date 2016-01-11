@@ -36,7 +36,8 @@ public class ContactManagerImpl implements ContactManager {
 	private int meetingidcount =0;
 	
 	/**
-	* This field captures the current date of the Calendar Manager. 
+	* This field captures the current date of the ContactManager. It will always reflect the current time
+	* of the computer system.
 	*/
 	private Calendar currentdate = Calendar.getInstance();
 	
@@ -61,7 +62,7 @@ public class ContactManagerImpl implements ContactManager {
 	private File file = new File("ContactManager.ser");
 		
 	/**
-	* Contructor method.
+	* Constructor method.
 	* It read prior instances of the ContactManager if they exist, if not
 	* it inizilizes the list data structures.
 	*/
