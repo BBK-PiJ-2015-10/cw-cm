@@ -38,7 +38,7 @@ public class ContactManagerImpl implements ContactManager {
 	/**
 	* This field captures the current date of the Calendar Manager. 
 	*/
-	private Calendar currentdate;
+	private Calendar currentdate = Calendar.getInstance();
 	
 	/**
 	* This field has the list of all Contacts added to the ContactManager.
@@ -70,7 +70,6 @@ public class ContactManagerImpl implements ContactManager {
 			capture();
 		}
 		else {
-			this.currentdate = Calendar.getInstance();
 			this.contactlist = new LinkedList<Contact>();
 			this.meetinglist = new LinkedList<FutureMeeting>();
 			this.pastmeetinglist = new LinkedList<PastMeeting>();
