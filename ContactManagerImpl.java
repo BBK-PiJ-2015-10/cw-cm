@@ -70,6 +70,7 @@ public class ContactManagerImpl implements ContactManager {
 			capture();
 		}
 		else {
+			this.currentdate = Calendar.getInstance();
 			this.contactlist = new LinkedList<Contact>();
 			this.meetinglist = new LinkedList<FutureMeeting>();
 			this.pastmeetinglist = new LinkedList<PastMeeting>();
@@ -315,6 +316,8 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
+	
+	
 	* This is an auxiliary method. It returns the List of Contacts in ContactManager. It was 
 	* built with the objective of facilitating the testing of ContactManager in the 
 	* TestContactManager class.
