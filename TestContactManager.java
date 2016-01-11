@@ -1085,6 +1085,7 @@ public class TestContactManager {
 		TestContactManager.add2PastMeetings(testerContactManager);
 		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
 		ContactManager test = new ContactManagerImpl();
+		((ContactManagerImpl)test).setCurrentDate(new GregorianCalendar(2020,0,14,15,30));
 		assertEquals(2,test.getPastMeetingListFor(testContact).size());
 	}
 	
@@ -1097,6 +1098,7 @@ public class TestContactManager {
 		TestContactManager.add2PastMeetings(testerContactManager);
 		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
 		ContactManager test = new ContactManagerImpl();
+		((ContactManagerImpl)test).setCurrentDate(new GregorianCalendar(2020,0,14,15,30));
 		assertEquals(1,test.getFutureMeetingList(testContact).size());
 	}
 	
@@ -1108,6 +1110,7 @@ public class TestContactManager {
 		TestContactManager.add2PastMeetings(testerContactManager);
 		Contact testContact = new ContactImpl(1,"John Mcenroe","United States");
 		ContactManager test = new ContactManagerImpl();
+		((ContactManagerImpl)test).setCurrentDate(new GregorianCalendar(2020,0,14,15,30));
 		assertEquals(8,((ContactManagerImpl)testerContactManager).getsizeofcontactlist());
 	}
 	
