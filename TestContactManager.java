@@ -319,7 +319,7 @@ public class TestContactManager {
 	}
 	
 	/**
-	* Passing two contacts, one of them witn an ID not in the list, testing that an IllegalArgumentException is thrown.	
+	* Passing two contacts, one of them with an ID not in the list, testing that an IllegalArgumentException is thrown.	
 	*/
 	@Test
 	public void testGetContactViaIDsTestVariousInvalidIDprovided(){
@@ -532,7 +532,7 @@ public class TestContactManager {
 	}
 
 
-	/** Passing a an invalidinput (a meeting ID with a date in the future), testing that an IllegalStateException
+	/** Passing an invalidinput (a meeting ID with a date in the future), testing that an IllegalStateException
     * is thrown.
 	*/
 	@Test
@@ -686,7 +686,7 @@ public class TestContactManager {
 	
 	/**
 	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
-	*  (id) match the field of the meeting that I had previously added to the list.
+	* (id) match the field of the meeting that I had previously added to the list.
 	*/
 	@Test
 	public void testGetMeetingValidMeetingIDInput(){
@@ -698,7 +698,7 @@ public class TestContactManager {
 	
 	/**
 	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
-	*  (date) match the field of the meeting that I had previously added to the list.
+	* (date) match the field of the meeting that I had previously added to the list.
 	*/
 	@Test
 	public void testGetMeetingValidMeetingInputDate(){
@@ -709,7 +709,7 @@ public class TestContactManager {
 	
 	/**
 	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
-	*  (size of participants set) match the field of the meeting that I had previously added to the list.
+	* (size of participants set) match the field of the meeting that I had previously added to the list.
 	*/
 	@Test
 	public void testGetMeetingValidMeetingInputSize(){
@@ -720,7 +720,7 @@ public class TestContactManager {
 	
 	/**
 	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
-	*  (participants) match the field of the meeting that I had previously added to the list.
+	* (participants) match the field of the meeting that I had previously added to the list.
 	*/
 	@Test
 	public void testGetMeetingValidMeetingInputParticipants(){
@@ -733,7 +733,7 @@ public class TestContactManager {
 	
 	/**
 	* Passing a validinput expecting a Meeting to be returned. Testing that the field of the meeting
-	*  (participants) returned doesn't match a random list of participants.
+	* (participants) returned doesn't match a random list of participants.
 	*/
 	@Test
 	public void testGetMeetingValidMeetingInputParticipantsNotEqualInvalidSet(){
@@ -820,7 +820,7 @@ public class TestContactManager {
 	*/
 
 	/** Passing a validinput (testing that the output list contains the proper meetings).
-	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* More precisely, adding 4 meetings, 3 of them on the same date, and the second one
 	* on a different date. Testing that the List being return from this method based on
 	* the date of meetings (1,3,4) will be size 3 and will include those 3 meetings an
 	ordered from older to more recent.
@@ -833,7 +833,7 @@ public class TestContactManager {
 	}
 	
 	/** Passing a validinput (testing that the output list contains the proper meetings).
-	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* More precisely, adding 4 meetings, 3 of them on the same date, and the second one
 	* on a different date. Testing that the List being return from this method based on
 	* the date of meetings (1,3,4) will not include meeting # 2.
 	*/
@@ -846,7 +846,7 @@ public class TestContactManager {
 	
 	
 	/** Passing a validinput (testing that the output list contains the proper meetings).
-	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* More precisely, adding 4 meetings, 3 of them on the same date, and the second one
 	* on a different date. Testing that the List being return from this method based on
 	* the date of meetings (1,3,4) testing that the first element in the returned list
 	* is the one with the oldest date (chronologically ordered).
@@ -859,7 +859,7 @@ public class TestContactManager {
 	}
 	
 	/** Passing a validinput (testing that the output list contains the proper meetings).
-	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* More precisely, adding 4 meetings, 3 of them on the same date, and the second one
 	* on a different date. Testing that the List being return from this method based on
 	* the date of meetings (1,3,4) testing that the second element in the returned list
 	* is the second one with the oldest date (chronologically ordered).
@@ -872,7 +872,7 @@ public class TestContactManager {
 	}
 	
 	/** Passing a validinput (testing that the output list contains the proper meetings).
-	*  More precisely, adding 4 meetings, 3 of them on the same date, and the second one
+	* More precisely, adding 4 meetings, 3 of them on the same date, and the second one
 	* on a different date. Testing that the List being return from this method based on
 	* the date of meetings (1,3,4) testing that the third and last element in the returned list
 	* is the third and last one with the most recent date (chronologically ordered).
