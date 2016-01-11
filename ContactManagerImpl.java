@@ -80,7 +80,7 @@ public class ContactManagerImpl implements ContactManager {
 	/**
 	* This is a setter method for the current date in the ContactManager.
 	* This method was mainly developed for User Testing Purposes, since the default process
-	* is that the current date of CalendarManager is synched up with computer internal clock.
+	* is that the current date of ContactManager is synched up with computer internal clock.
 	* The flush() method is being called to save the update done to ContactManager to disk.
 	*/
 	public void setCurrentDate(Calendar currentdate){
