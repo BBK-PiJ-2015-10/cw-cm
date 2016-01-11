@@ -78,7 +78,7 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* This is a setter method for the current date in the CalendarManager.
+	* This is a setter method for the current date in the ContactManager.
 	* This method was mainly developed for User Testing Purposes, since the default process
 	* is that the current date of CalendarManager is synched up with computer internal clock.
 	* The flush() method is being called to save the update done to ContactManager to disk.
@@ -89,7 +89,7 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* This method returns the current time in the CalendarManager.
+	* This method returns the current time in the ContactManager.
 	*/
 	public Calendar getCurrentDate(){
 		return this.currentdate;
@@ -136,7 +136,7 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	* This is an auxiliary method that displays the size of the list of contacts in the contact manager. This
+	* This is an auxiliary method that displays the size of the list of contacts in the ContactManager. This
 	* is being leverated in {@see TestContactManager } to evaluate testing results across many of the methods 
 	* implemented in ContactManagerImpl.
 	*/
@@ -200,7 +200,7 @@ public class ContactManagerImpl implements ContactManager {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	/**
-	*  This method compares the date being entered versus the current date in the CalendarManager.
+	*  This method compares the date being entered versus the current date in the ContactManager.
 	*  If the input date in earlier than current date an IllegalArgumentException is thrown.
 	*  This method is to be used within the int addFutureMeeting(Set<Contact> contacts, Calendar date)
 	*  method.
@@ -212,7 +212,7 @@ public class ContactManagerImpl implements ContactManager {
 	}
 	
 	/**
-	*  This method compares the date being input versus the current date in the CalendarManager.
+	*  This method compares the date being input versus the current date in the ContactManager.
 	*  If the input date is later than current date, then an IllegalStateException is thrown.
 	*  This method is to be used within the int addMeetingNotes(int id, String txt) method.
 	*/
@@ -557,7 +557,7 @@ public class ContactManagerImpl implements ContactManager {
 	* the current list of contacts. Using these two methods since they are
 	* already being leveraged in other methods in this program. An Illegal-
 	* argumentException will be thrown if the contact is not in the list of Contacts.
-	* Any meetings that have dates occurring before the currentdate of the CalendarManager
+	* Any meetings that have dates occurring before the currentdate of the ContactManager
 	* are excluded from the list to be returned.
 	* sortMeetingList just sorts the list on chronological order.
 	*/
@@ -587,7 +587,7 @@ public class ContactManagerImpl implements ContactManager {
 	* current list of contacts. Using these two methods since they are
 	* already being leveraged in other methods in this program. An Illegal-
 	* argumentException will be thrown if the contact is not in the list of Contacts.
-	* Any meetings that have dates occurring after the currentdate of the CalendarManager
+	* Any meetings that have dates occurring after the currentdate of the ContactManager
 	* are excluded from the list to be returned.
 	* sortMeetingList just sorts the list on chronological order.
 	*/
